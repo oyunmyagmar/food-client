@@ -15,6 +15,7 @@ import {
   FormMessage,
   Input,
 } from "@/components/ui";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 
 const formSchema = z.object({
   Password: z.string({ message: "" }).min(6).max(10),
@@ -40,49 +41,61 @@ export const SignupPasswordForm = () => {
     console.log(values);
   }
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="w-full h-10 bg-red-100"></div>
+    <div className="flex flex-col gap-6">
+      <Button variant={"outline"} className="w-fit">
+        <HiOutlineChevronLeft className="size-4" />
+      </Button>
 
+      <div>
+        <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
+          Create a strong password
+        </h2>
+        <p className="text-base leading-6 text-muted-foreground">
+          Create a strong password with letters, numbers.
+        </p>
+      </div>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="Password"
             render={({ field }) => (
               <FormItem className="w-104">
-                <FormLabel>Create a strong password</FormLabel>
-                <FormDescription>
-                  Create a strong password with letters, numbers.
-                </FormDescription>
                 <FormControl>
-                  <Input placeholder="Password" {...field} />
+                  <Input placeholder="Password" {...field} className="py-2" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className="w-full h-10 bg-red-100"></div>
           <FormField
             control={form.control}
             name="Confirm"
             render={({ field }) => (
               <FormItem className="w-104">
-                <FormLabel>Create a strong password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Confirm" {...field} />
+                  <Input placeholder="Confirm" {...field} className="py-2" />
                 </FormControl>
-                <FormDescription>
-                  Create a strong password with letters, numbers.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Let's Go</Button>
-          <div>
-            Already have an account?<span>Log in</span>
-          </div>
+          <Button
+            variant={"secondary"}
+            type="submit"
+            className="mt-2 w-full bg-primary text-primary-foreground leading-5 hover:bg-primary/20"
+          >
+            Let's Go
+          </Button>
+
+          <a
+            href="/"
+            className="mt-2 flex justify-center gap-3 text-base leading-6"
+          >
+            <p className="text-muted-foreground">Already have an account?</p>
+            <p className="text-blue-600">Log in</p>
+          </a>
         </form>
       </Form>
     </div>

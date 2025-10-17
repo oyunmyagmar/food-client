@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,13 +7,12 @@ import {
   Button,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
   Input,
 } from "@/components/ui";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 
 const formSchema = z.object({
   email: z
@@ -45,31 +43,51 @@ export const SignupEmailForm = ({
     console.log(values);
   }
   return (
-    <div>
-      <h2>Create your account</h2>
-      <p>Sign up to explore your favorite dishes.</p>
+    <div className="flex flex-col gap-6">
+      <Button variant={"outline"} className="w-fit">
+        <HiOutlineChevronLeft className="size-4" />
+      </Button>
+
+      <div>
+        <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
+          Create your account
+        </h2>
+        <p className="text-base leading-6 text-muted-foreground">
+          Sign up to explore your favorite dishes.
+        </p>
+      </div>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem className="w-104">
                 <FormControl>
-                  <Input placeholder="Enter your email address" {...field} />
+                  <Input
+                    placeholder="Enter your email address"
+                    {...field}
+                    className="py-2"
+                  />
                 </FormControl>
-                <FormDescription>
-                  <button>Already have an account?</button>
-                  <button>Log in</button>
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Let's Go</Button>
-          <div>
-            Already have an account?<span>Log in</span>
-          </div>
+
+          <Button
+            variant={"secondary"}
+            type="submit"
+            className="w-full bg-primary text-primary-foreground leading-5 hover:bg-primary/20"
+          >
+            Let's Go
+          </Button>
+
+          <a href="/" className="flex justify-center gap-3 text-base leading-6">
+            <p className="text-muted-foreground">Already have an account?</p>
+            <p className="text-blue-600">Log in</p>
+          </a>
         </form>
       </Form>
     </div>

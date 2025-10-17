@@ -14,7 +14,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="w-360 h-256 flex m-auto py-5 pr-5 pl-20 gap-12 bg-amber-100">
+    <div className="w-360 h-256 flex m-auto py-5 pr-5 pl-20 gap-12">
       <div className="mt-[226px]">
         <StepComponents
           email={email}
