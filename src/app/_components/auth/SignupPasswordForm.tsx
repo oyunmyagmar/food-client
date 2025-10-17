@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,36 +7,47 @@ import {
   Button,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
   Input,
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 
 const formSchema = z.object({
-  Password: z.string({ message: "" }).min(6).max(10),
+  password: z
+    .string({ message: "Weak password. Use numbers and symbols." })
+    .min(6)
+    .max(10),
 
-  Confirm: z
+  confirm: z
     .string({
       message: "Those password did’t match, Try again",
     })
-    .min(6, { message: "Weak password. Use numbers and symbols." })
+    .min(6)
     .max(10),
 });
 
-export const SignupPasswordForm = () => {
+export const SignupPasswordForm = ({
+  password,
+  setPassword,
+  handleNextStep,
+}: {
+  password: string;
+  setPassword: (password: string) => void;
+  handleNextStep: () => void;
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      Password: "",
-      Confirm: "",
+      password: "",
+      confirm: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setPassword(values.password);
+    handleNextStep();
     console.log(values);
   }
   return (
@@ -59,7 +69,7 @@ export const SignupPasswordForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="Password"
+            name="password"
             render={({ field }) => (
               <FormItem className="w-104">
                 <FormControl>
@@ -71,7 +81,7 @@ export const SignupPasswordForm = () => {
           />
           <FormField
             control={form.control}
-            name="Confirm"
+            name="confirm"
             render={({ field }) => (
               <FormItem className="w-104">
                 <FormControl>
@@ -84,7 +94,7 @@ export const SignupPasswordForm = () => {
           <Button
             variant={"secondary"}
             type="submit"
-            className="mt-2 w-full bg-primary text-primary-foreground leading-5 hover:bg-primary/20"
+            className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/20"
           >
             Let's Go
           </Button>

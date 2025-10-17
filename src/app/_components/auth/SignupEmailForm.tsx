@@ -27,7 +27,7 @@ export const SignupEmailForm = ({
   handleNextStep,
 }: {
   email: string;
-  setEmail: (sd: string) => void;
+  setEmail: (email: string) => void;
   handleNextStep: () => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +79,7 @@ export const SignupEmailForm = ({
           <Button
             variant={"secondary"}
             type="submit"
-            className="w-full bg-primary text-primary-foreground leading-5 hover:bg-primary/20"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/20"
           >
             Let's Go
           </Button>
