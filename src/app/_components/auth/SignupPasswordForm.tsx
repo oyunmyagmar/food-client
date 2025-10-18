@@ -17,15 +17,17 @@ import { HiOutlineChevronLeft } from "react-icons/hi";
 const formSchema = z.object({
   password: z
     .string({ message: "Weak password. Use numbers and symbols." })
-    .min(6)
-    .max(10),
+    .min(6, { message: "Password must be at least 6 characters long." })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]:;"'<>,.?/~`|\\]).{6,}$/,
+      "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character((e.g. !@#$%^&*))."
+    ),
 
   confirm: z
     .string({
       message: "Those password did’t match, Try again",
     })
-    .min(6)
-    .max(10),
+    .refine((confirm) => confirm === password, { message: "" }),
 });
 
 export const SignupPasswordForm = ({
