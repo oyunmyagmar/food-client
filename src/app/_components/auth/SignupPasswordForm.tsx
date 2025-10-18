@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,21 +15,23 @@ import {
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 
-const formSchema = z.object({
-  password: z
-    .string({ message: "Weak password. Use numbers and symbols." })
-    .min(6, { message: "Password must be at least 6 characters long." })
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]:;"'<>,.?/~`|\\]).{6,}$/,
-      "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character((e.g. !@#$%^&*))."
-    ),
+const formSchema = z
+  .object({
+    password: z
+      .string({ message: "Weak password. Use numbers and symbols." })
+      .min(6, { message: "Password must be at least 6 characters long." })
+      .max(20, { message: "Password must be no more than 20 characters long." })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]:;"'<>,.?/~`|\\]).{6,20}$/,
+        "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character((e.g. !@#$%^&*))."
+      ),
 
-  confirm: z
-    .string({
-      message: "Those password did’t match, Try again",
-    })
-    .refine((confirm) => confirm === password, { message: "" }),
-});
+    confirm: z.string(),
+  })
+  .refine((data) => data.password === data.confirm, {
+    message: "Those password did’t match, Try again",
+    path: ["confirm"],
+  });
 
 export const SignupPasswordForm = ({
   password,
@@ -52,12 +55,12 @@ export const SignupPasswordForm = ({
     handleNextStep();
     console.log(values);
   }
+
   return (
     <div className="flex flex-col gap-6">
       <Button variant={"outline"} className="w-fit">
         <HiOutlineChevronLeft className="size-4" />
       </Button>
-
       <div>
         <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
           Create a strong password
@@ -66,7 +69,6 @@ export const SignupPasswordForm = ({
           Create a strong password with letters, numbers.
         </p>
       </div>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -93,21 +95,23 @@ export const SignupPasswordForm = ({
               </FormItem>
             )}
           />
+          <div className="flex gap-2 items-center mb-6">
+            <Input type="checkbox" className="w4 h-4 w-fit" />
+            <div className="text-sm text-muted-foreground">Show password</div>
+          </div>
           <Button
             variant={"secondary"}
             type="submit"
-            className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/20"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/20"
           >
             Let's Go
           </Button>
-
-          <a
-            href="/"
-            className="mt-2 flex justify-center gap-3 text-base leading-6"
-          >
-            <p className="text-muted-foreground">Already have an account?</p>
-            <p className="text-blue-600">Log in</p>
-          </a>
+          <Link href="/login" className="text-center text-base leading-6">
+            <p className="mt-2 text-muted-foreground">
+              Already have an account?
+              <span className="pl-3 text-blue-600">Log in</span>
+            </p>
+          </Link>
         </form>
       </Form>
     </div>

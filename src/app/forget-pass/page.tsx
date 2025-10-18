@@ -20,15 +20,13 @@ const formSchema = z.object({
   email: z.email({
     message: "Invalid email. Use a format like example@email.com.",
   }),
-  password: z.string({ message: "Incorrect password. Please try again." }),
 });
 
-const LoginPage = () => {
+const ForgetPassPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -46,15 +44,15 @@ const LoginPage = () => {
 
           <div>
             <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
-              Log in
+              Reset your password
             </h2>
             <p className="text-base leading-6 text-muted-foreground">
-              Log in to enjoy your favorite dishes.
+              Enter your email to receive a password reset link.
             </p>
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="email"
@@ -71,36 +69,17 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="w-104">
-                    <FormControl>
-                      <Input
-                        placeholder="Password"
-                        {...field}
-                        className="py-2"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Link href="/forget-pass">
-                <p className="mb-6 underline">Forgot password ?</p>
-              </Link>
 
               <Button
                 variant={"secondary"}
                 type="submit"
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/20"
               >
-                Let's Go
+                Send link
               </Button>
 
               <Link href="/signup" className="text-center text-base leading-6">
-                <p className="mt-2 text-muted-foreground">
+                <p className="text-muted-foreground">
                   Don’t have an account?
                   <span className="pl-3 text-blue-600">Sign up</span>
                 </p>
@@ -122,4 +101,4 @@ const LoginPage = () => {
     </div>
   );
 };
-export default LoginPage;
+export default ForgetPassPage;

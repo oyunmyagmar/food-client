@@ -15,10 +15,9 @@ import {
 import { HiOutlineChevronLeft } from "react-icons/hi";
 
 const formSchema = z.object({
-  email: z
-    .email({ message: "Invalid email. Use a format like example@email.com" })
-    .min(2)
-    .max(20),
+  email: z.email({
+    message: "Invalid email. Use a format like example@email.com",
+  }),
 });
 
 export const SignupEmailForm = ({
@@ -84,7 +83,10 @@ export const SignupEmailForm = ({
             Let's Go
           </Button>
 
-          <a href="/" className="flex justify-center gap-3 text-base leading-6">
+          <a
+            href="/login"
+            className="flex justify-center gap-3 text-base leading-6"
+          >
             <p className="text-muted-foreground">Already have an account?</p>
             <p className="text-blue-600">Log in</p>
           </a>
