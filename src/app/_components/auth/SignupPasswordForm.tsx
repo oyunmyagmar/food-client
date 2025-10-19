@@ -14,6 +14,7 @@ import {
   Input,
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -50,9 +51,11 @@ export const SignupPasswordForm = ({
     },
   });
 
+  const router = useRouter();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setPassword(values.password);
-    handleNextStep();
+    router.push("/login");
     console.log(values);
   }
 
@@ -106,12 +109,15 @@ export const SignupPasswordForm = ({
           >
             Let's Go
           </Button>
-          <Link href="/login" className="text-center text-base leading-6">
-            <p className="mt-2 text-muted-foreground">
+          <div
+            onClick={() => router.push("/login")}
+            className="text-center text-base leading-6"
+          >
+            <div className="mt-2 text-muted-foreground">
               Already have an account?
-              <span className="pl-3 text-blue-600">Log in</span>
-            </p>
-          </Link>
+              <span className="pl-3 text-blue-600 cursor-pointer">Log in</span>
+            </div>
+          </div>
         </form>
       </Form>
     </div>

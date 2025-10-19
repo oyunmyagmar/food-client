@@ -26,7 +26,7 @@ export const SignupEmailForm = ({
   handleNextStep,
 }: {
   email: string;
-  setEmail: (email: string) => void;
+  setEmail?: (email: string) => void;
   handleNextStep: () => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +37,9 @@ export const SignupEmailForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setEmail(values.email);
+    if (setEmail) {
+      setEmail(values.email);
+    }
     handleNextStep();
     console.log(values);
   }
