@@ -21,15 +21,7 @@ const formSchema = z.object({
   }),
 });
 
-export const SignupEmailForm = ({
-  email,
-  setEmail,
-  handleNextStep,
-}: {
-  email: string;
-  setEmail: (email: string) => void;
-  handleNextStep: () => void;
-}) => {
+export const VerifyEmail = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,10 +32,6 @@ export const SignupEmailForm = ({
   const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (setEmail) {
-      setEmail(values.email);
-    }
-    handleNextStep();
     console.log(values);
   }
 
@@ -55,16 +43,17 @@ export const SignupEmailForm = ({
 
       <div>
         <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
-          Create your account
+          Please verify Your Email
         </h2>
         <p className="text-base leading-6 text-muted-foreground">
-          Sign up to explore your favorite dishes.
+          We just sent an email to {"Test@gmail.com"}. Click the link in the
+          email to verify your account.
         </p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
@@ -79,27 +68,15 @@ export const SignupEmailForm = ({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <Button
             variant={"secondary"}
             type="submit"
             className="w-full bg-primary text-primary-foreground hover:bg-primary/20 cursor-pointer"
           >
-            Let's Go
+            Resend email
           </Button>
-
-          <div className="text-base leading-6 flex gap-3 justify-center items-center">
-            <div className="text-muted-foreground">
-              Already have an account?
-            </div>
-            <div
-              onClick={() => router.push("/login")}
-              className="text-blue-600 cursor-pointer"
-            >
-              Log in
-            </div>
-          </div>
         </form>
       </Form>
     </div>

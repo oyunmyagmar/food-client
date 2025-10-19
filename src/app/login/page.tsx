@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,8 @@ import {
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { CreateNewPass, ResetPass, VerifyEmail } from "../_components/auth";
 
 const formSchema = z.object({
   email: z.email({
@@ -24,6 +26,9 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
+  const [step, Setstep] = useState(0);
+  const StepComponentsPass = [ResetPass, VerifyEmail, CreateNewPass][step];
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,9 +37,15 @@ const LoginPage = () => {
     },
   });
 
+  const router = useRouter();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
+  const handleNextStepForPass = () => {
+    Setstep(0);
+  };
 
   return (
     <div className="w-360 h-256 flex m-auto py-5 pr-5 pl-25 gap-12">
@@ -71,6 +82,7 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="password"
@@ -87,24 +99,35 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-              <Link href="/forget-pass">
-                <p className="mb-6 underline">Forgot password ?</p>
-              </Link>
 
-              <Button
-                variant={"secondary"}
-                type="submit"
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/20"
-              >
-                Let's Go
-              </Button>
+              <div className="flex flex-col gap-6">
+                <div
+                  onClick={handleNextStepForPass}
+                  className="text-sm leading-5 text-secondary-foreground underline cursor-pointer"
+                >
+                  Forgot password ?
+                </div>
 
-              <Link href="/signup" className="text-center text-base leading-6">
-                <p className="mt-2 text-muted-foreground">
-                  Don’t have an account?
-                  <span className="pl-3 text-blue-600">Sign up</span>
-                </p>
-              </Link>
+                <Button
+                  variant={"secondary"}
+                  type="submit"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/20 cursor-pointer"
+                >
+                  Let's Go
+                </Button>
+
+                <div className="text-base leading-6 flex gap-3 justify-center items-center">
+                  <div className="text-muted-foreground">
+                    Don’t have an account?
+                  </div>
+                  <div
+                    onClick={() => router.push("/signup")}
+                    className="text-blue-600 cursor-pointer"
+                  >
+                    Sign up
+                  </div>
+                </div>
+              </div>
             </form>
           </Form>
         </div>

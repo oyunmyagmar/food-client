@@ -33,7 +33,7 @@ const formSchema = z
     path: ["confirm"],
   });
 
-export const SignupPasswordForm = ({
+export const CreateNewPass = ({
   password,
   setPassword,
 }: {
@@ -52,7 +52,6 @@ export const SignupPasswordForm = ({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setPassword(values.password);
-    router.push("/login");
     console.log(values);
   }
 
@@ -64,10 +63,11 @@ export const SignupPasswordForm = ({
 
       <div>
         <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
-          Create a strong password
+          Create new password
         </h2>
         <p className="text-base leading-6 text-muted-foreground">
-          Create a strong password with letters, numbers.
+          Set a new password with a combination of letters and numbers for
+          better security.
         </p>
       </div>
 
@@ -113,20 +113,8 @@ export const SignupPasswordForm = ({
               type="submit"
               className="w-full bg-primary text-primary-foreground hover:bg-primary/20 cursor-pointer"
             >
-              Let's Go
+              Create password
             </Button>
-
-            <div className="text-base leading-6 flex gap-3 justify-center items-center">
-              <div className="text-muted-foreground">
-                Already have an account?
-              </div>
-              <div
-                onClick={() => router.push("/login")}
-                className="text-blue-600 cursor-pointer"
-              >
-                Log in
-              </div>
-            </div>
           </div>
         </form>
       </Form>

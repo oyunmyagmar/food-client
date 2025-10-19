@@ -21,15 +21,7 @@ const formSchema = z.object({
   }),
 });
 
-export const SignupEmailForm = ({
-  email,
-  setEmail,
-  handleNextStep,
-}: {
-  email: string;
-  setEmail: (email: string) => void;
-  handleNextStep: () => void;
-}) => {
+export const ResetPass = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,10 +32,6 @@ export const SignupEmailForm = ({
   const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (setEmail) {
-      setEmail(values.email);
-    }
-    handleNextStep();
     console.log(values);
   }
 
@@ -55,10 +43,10 @@ export const SignupEmailForm = ({
 
       <div>
         <h2 className="text-2xl leading-8 font-semibold text-foreground mb-1">
-          Create your account
+          Reset your password
         </h2>
         <p className="text-base leading-6 text-muted-foreground">
-          Sign up to explore your favorite dishes.
+          Enter your email to receive a password reset link.
         </p>
       </div>
 
@@ -86,18 +74,16 @@ export const SignupEmailForm = ({
             type="submit"
             className="w-full bg-primary text-primary-foreground hover:bg-primary/20 cursor-pointer"
           >
-            Let's Go
+            Send link
           </Button>
 
           <div className="text-base leading-6 flex gap-3 justify-center items-center">
-            <div className="text-muted-foreground">
-              Already have an account?
-            </div>
+            <div className="text-muted-foreground">Don’t have an account?</div>
             <div
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/signup")}
               className="text-blue-600 cursor-pointer"
             >
-              Log in
+              Sign up
             </div>
           </div>
         </form>

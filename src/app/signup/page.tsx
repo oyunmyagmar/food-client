@@ -5,9 +5,7 @@ import Image from "next/image";
 
 const SignupPage = () => {
   const [step, setStep] = useState(0);
-  const StepComponents = [SignupEmailForm, SignupPasswordForm, SignupEmailForm][
-    step
-  ];
+  const StepComponents = [SignupEmailForm, SignupPasswordForm][step];
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
