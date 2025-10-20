@@ -17,6 +17,7 @@ import { HiOutlineChevronLeft } from "react-icons/hi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CreateNewPass, ResetPass, VerifyEmail } from "../_components/auth";
+import { PiPassword } from "react-icons/pi";
 
 const formSchema = z.object({
   email: z.email({
@@ -26,6 +27,9 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [step, Setstep] = useState(0);
   const StepComponentsPass = [ResetPass, VerifyEmail, CreateNewPass][step];
 
@@ -39,8 +43,25 @@ const LoginPage = () => {
 
   const router = useRouter();
 
+  const verifyData = async () => {
+    try {
+      await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: form.getValues("email"),
+          password: form.getValues("password"),
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    verifyData();
   }
 
   const handleNextStepForPass = () => {
