@@ -40,11 +40,9 @@ export const SignupEmailForm = ({
   const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     if (values.email.length) {
       setEmail(values.email);
     }
-    console.log(values.email);
     handleNextStep();
   }
 
