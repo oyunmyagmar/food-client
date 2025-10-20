@@ -8,6 +8,7 @@ import { FoodCard } from "./_components/FoodCard";
 const Homepage = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [foods, setFoods] = useState<NewFoodType[]>([]);
+  const userEmail = localStorage.getItem("userEmail");
 
   const getCategories = async () => {
     const res = await fetch("http://localhost:4000/api/categories");
@@ -60,6 +61,7 @@ const Homepage = () => {
 
         <div>
           <Input></Input>
+          <div className="text-white">{userEmail}</div>
         </div>
       </div>
 

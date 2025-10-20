@@ -59,19 +59,27 @@ export const SignupPasswordForm = ({
 
     const createUser = async () => {
       try {
-        await fetch("http://localhost:4000/api/signup", {
+        const response = await fetch("http://localhost:4000/api/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password: values.password }),
         });
+        if (!response.ok) {
+          if (response.status === 409) {
+            alert(`Sign up failed! Email address is already in use.`);
+          }
+        }
+        if (response.status === 201) {
+          alert(`User created succesfully!`);
+        }
+        router.push("/login");
       } catch (error) {
         console.error(error);
       }
     };
     createUser();
-    router.push("/login");
   }
 
   return (

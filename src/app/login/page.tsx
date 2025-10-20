@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,7 +37,7 @@ const LoginPage = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const verifyUser = async () => {
-      await fetch("http://localhost:4000/api/login", {
+      const response = await fetch("http://localhost:4000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,6 +47,21 @@ const LoginPage = () => {
           password: values?.password,
         }),
       });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          alert("Invalid email! Please try again.");
+        } else if (response.status === 400) {
+          alert("Incorrect password! Please try again.");
+        }
+      }
+
+      const res = await response.json();
+      if (res.success) {
+        alert(res.message);
+        localStorage.setItem("userEmail", values.email);
+        router.push("/");
+      }
     };
     verifyUser();
   }
