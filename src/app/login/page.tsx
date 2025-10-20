@@ -25,12 +25,6 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  // const [step, Setstep] = useState(0);
-  // const StepComponentsPass = [ResetPass, VerifyEmail, CreateNewPass][step];
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,38 +35,21 @@ const LoginPage = () => {
 
   const router = useRouter();
 
-  const verifyUser = async () => {
-    try {
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const verifyUser = async () => {
       await fetch("http://localhost:4000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
-        // body: JSON.stringify({
-        //   email: form.getValues("email"),
-        //   password: form.getValues("password"),
-        // }),
+        body: JSON.stringify({
+          email: values?.email,
+          password: values?.password,
+        }),
       });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (setEmail) {
-      setEmail(values.email);
-    }
-    if (setPassword) {
-      setPassword(values.password);
-    }
-
+    };
     verifyUser();
   }
-
-  const handleNextStepForPass = () => {
-    // Setstep(0);
-  };
 
   return (
     <div className="w-360 h-256 flex m-auto py-5 pr-5 pl-25 gap-12">
@@ -129,7 +106,7 @@ const LoginPage = () => {
 
               <div className="flex flex-col gap-6">
                 <div
-                  onClick={handleNextStepForPass}
+                  // onClick={handleNextStepForPass}
                   className="text-sm leading-5 text-secondary-foreground underline cursor-pointer"
                 >
                   Forgot password ?

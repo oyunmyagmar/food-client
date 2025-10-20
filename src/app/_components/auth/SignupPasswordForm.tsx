@@ -52,24 +52,24 @@ export const SignupPasswordForm = ({
 
   const router = useRouter();
 
-  const createUser = async () => {
-    try {
-      await fetch("http://localhost:4000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (setPassword) {
+    if (values.password.length) {
       setPassword(values.password);
     }
+
+    const createUser = async () => {
+      try {
+        await fetch("http://localhost:4000/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password: values.password }),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
     createUser();
     router.push("/login");
   }
