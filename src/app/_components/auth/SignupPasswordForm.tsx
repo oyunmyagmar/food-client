@@ -52,12 +52,7 @@ export const SignupPasswordForm = ({
 
   const router = useRouter();
 
-  // const user = {
-  //   email,
-  //   password,
-  // };
-
-  const saveData = async () => {
+  const createUser = async () => {
     try {
       await fetch("http://localhost:4000/api/signup", {
         method: "POST",
@@ -72,11 +67,12 @@ export const SignupPasswordForm = ({
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setPassword(values.password);
+    if (setPassword) {
+      setPassword(values.password);
+    }
+    createUser();
     router.push("/login");
-    saveData();
   }
-  console.log(email, "email", password, "pass");
 
   return (
     <div className="flex flex-col gap-6">

@@ -44,7 +44,6 @@ export const SignupEmailForm = ({
       setEmail(values.email);
     }
     handleNextStep();
-    // console.log(values);
   }
 
   return (
