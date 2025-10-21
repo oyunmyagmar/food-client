@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,11 +25,18 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
-  const userEmail = localStorage.getItem("userEmail");
-
+  const [registeredWithEmail, setRegisteredWithEmail] = useState<string | null>(
+    null
+  );
   const router = useRouter();
-  console.log(userEmail, "USEREMAIL");
-  if (userEmail) {
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userEmail");
+    setRegisteredWithEmail(userEmail);
+  }, []);
+
+  console.log(registeredWithEmail);
+  if (registeredWithEmail) {
     router.push("/");
   }
 
@@ -40,6 +47,7 @@ const LoginPage = () => {
       password: "",
     },
   });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     const verifyUser = async () => {
       const response = await fetch("http://localhost:4000/api/login", {

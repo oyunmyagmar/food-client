@@ -15,7 +15,23 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Input,
 } from "@/components/ui";
+import { FiUser } from "react-icons/fi";
+import { LuShoppingCart } from "react-icons/lu";
+import { GrLocation } from "react-icons/gr";
+import { FaChevronRight } from "react-icons/fa6";
 
 const Homepage = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
@@ -64,7 +80,7 @@ const Homepage = () => {
   return (
     <div className="w-360 h-full flex flex-col items-center m-auto bg-[#404040]">
       <div className="w-full px-22 py-3 flex justify-between bg-primary items-center">
-        <div className="flex items-center gap-3 py-13">
+        <div className="flex items-center gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -93,48 +109,109 @@ const Homepage = () => {
           <Button
             onClick={() => router.push("/signup")}
             variant={"outline"}
-            className={`rounded-full leading-5 text-secondary-foreground ${
-              registeredWithEmail && "hidden"
-            }`}
+            className={`rounded-full leading-5 text-secondary-foreground`}
           >
             Sign up
           </Button>
           <Button
             onClick={() => router.push("/login")}
             variant={"destructive"}
-            className={`rounded-full leading-5 text-primary-foreground ${
-              registeredWithEmail && "hidden"
-            }`}
+            className={`rounded-full leading-5 text-primary-foreground bg-red-500`}
           >
             Log in
           </Button>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
+          <div className="flex items-center px-3 py-2 gap-1 rounded-full bg-background text-xs leading-4">
+            <div>
+              <GrLocation size={20} className="text-red-500" />
+            </div>
+            <div className="text-red-500">Delivery address:</div>
+            <div className="text-muted-foreground">Add Location</div>
+            <div>
+              <FaChevronRight size={20} className="text-neutral-900/50" />
+            </div>
+          </div>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant={"outline"} className="size-9 rounded-full">
+                <LuShoppingCart
+                  size={16}
+                  className="text-secondary-foreground"
+                />
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <Image src={""} alt="" />
+              <DialogHeader>
+                <DialogTitle>Sunshine Stackers</DialogTitle>
+                <DialogDescription>
+                  Fluffy pancakes stacked with fruits, cream, syrup, and
+                  powdered sugar.
+                </DialogDescription>
+              </DialogHeader>
+              <div>
+                <div>Total price</div>
+                <div>{"price"}</div>
+              </div>
+              <div>
+                <Button>{"hasah"}</Button>
+                <div>{"food too"}</div>
+                <Button>{"nemeh"}</Button>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <HoverCard>
+            <HoverCardTrigger asChild>
               <Button
                 variant={"destructive"}
-                className={`rounded-full leading-5 text-primary-foreground ${
-                  !registeredWithEmail && "hidden"
-                }`}
+                className="size-9 rounded-full bg-red-500"
               >
-                Log out
+                <FiUser size={16} />
               </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription className="hidden" />
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleLogOut}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            </HoverCardTrigger>
 
-          {/* <div className="text-white">{userEmail}</div> */}
+            <HoverCardContent className="bg-background rounded-xl">
+              <div className="flex flex-col gap-2 items-center">
+                <div className="text-xl leading-7 font-semibold text-foreground">
+                  {registeredWithEmail}
+                </div>
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant={"secondary"}
+                      className={`rounded-full leading-5 text-secondary-foreground`}
+                    >
+                      Sign out
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to sign out?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="hidden" />
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleLogOut}>
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
         </div>
       </div>
 
