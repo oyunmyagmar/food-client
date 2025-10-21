@@ -33,15 +33,7 @@ const formSchema = z
     path: ["confirm"],
   });
 
-export const SignupPasswordForm = ({
-  email,
-  password,
-  setPassword,
-}: {
-  email: string;
-  password: string;
-  setPassword: (password: string) => void;
-}) => {
+export const SignupPasswordForm = ({ email }: { email: string }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,34 +44,32 @@ export const SignupPasswordForm = ({
 
   const router = useRouter();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.password.length) {
-      setPassword(values.password);
-    }
-
-    const createUser = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/api/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password: values.password }),
-        });
-        if (!response.ok) {
-          if (response.status === 409) {
-            alert(`Sign up failed! Email address is already in use.`);
-          }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(email, "EMAIL");
+    console.log(values.password, "PASSS");
+    // const createUser = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password: values?.password }),
+      });
+      if (!response.ok) {
+        if (response.status === 409) {
+          alert(`Sign up failed! Email address is already in use.`);
         }
-        if (response.status === 201) {
-          alert(`User created succesfully!`);
-        }
-        router.push("/login");
-      } catch (error) {
-        console.error(error);
       }
-    };
-    createUser();
+      if (response.status === 201) {
+        alert(`User created succesfully!`);
+      }
+      router.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
+    // };
+    // createUser();
   }
 
   return (

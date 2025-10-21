@@ -2,14 +2,17 @@ import React from "react";
 import { NewFoodType } from "@/lib/type";
 import Image from "next/image";
 import {
-  Button,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Button,
 } from "@/components/ui";
+import { FaPlus } from "react-icons/fa6";
 
 export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   console.log(filteredFood.image);
@@ -31,24 +34,43 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
           )}
         </div>
 
-        <div className="absolute z-50">
+        <div className="absolute z-50 ml-[301.3px] mt-[146px]">
           <Dialog>
-            <DialogTrigger>
-              <Button variant={"outline"}></Button>
+            <DialogTrigger asChild>
+              <Button variant={"outline"} className="size-11 rounded-full">
+                <FaPlus size={16} className="text-red-500" />
+              </Button>
             </DialogTrigger>
 
             <DialogContent>
+              <Image src={""} alt="" />
               <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogTitle>Sunshine Stackers</DialogTitle>
                 <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Fluffy pancakes stacked with fruits, cream, syrup, and
+                  powdered sugar.
                 </DialogDescription>
               </DialogHeader>
+              <div>
+                <div>Total price</div>
+                <div>{"price"}</div>
+              </div>
+              <div>
+                <Button>{"hasah"}</Button>
+                <div>{"food too"}</div>
+                <Button>{"nemeh"}</Button>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
       </div>
+
       <div className="absolute text-red-600 z-30"></div>
       <div className="flex flex-col gap-2">
         <div className="flex gap-2.5 font-semibold items-center">

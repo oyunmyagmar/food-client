@@ -1,20 +1,45 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { CategoryType, NewFoodType } from "@/lib/type";
 import { FoodCard } from "./_components/FoodCard";
+import { useRouter } from "next/navigation";
+import {
+  Button,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui";
 
 const Homepage = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [foods, setFoods] = useState<NewFoodType[]>([]);
-  const userEmail = localStorage.getItem("userEmail");
+  const [registeredWithEmail, setRegisteredWithEmail] = useState<string | null>(
+    null
+  );
+  const router = useRouter();
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userEmail");
+    setRegisteredWithEmail(userEmail);
+  }, []);
+
+  // console.log(registeredWithEmail);
+  // if (!registeredWithEmail) {
+  //   router.push("/login");
+  // }
 
   const getCategories = async () => {
     const res = await fetch("http://localhost:4000/api/categories");
     const resData = await res.json();
     const { data } = resData;
-    console.log(data, "Categories");
+    // console.log(data, "Categories");
     setCategories(data);
   };
 
@@ -22,7 +47,7 @@ const Homepage = () => {
     const res = await fetch("http://localhost:4000/api/newfoods");
     const resData = await res.json();
     const { data } = resData;
-    console.log(data, "foods");
+    // console.log(data, "foods");
     setFoods(data);
   };
 
@@ -30,6 +55,11 @@ const Homepage = () => {
     getCategories();
     getNewFoods();
   }, []);
+
+  const handleLogOut = () => {
+    localStorage.removeItem("userEmail");
+    router.push("/login");
+  };
 
   return (
     <div className="w-360 h-full flex flex-col items-center m-auto bg-[#404040]">
@@ -59,9 +89,52 @@ const Homepage = () => {
           </div>
         </div>
 
-        <div>
-          <Input></Input>
-          <div className="text-white">{userEmail}</div>
+        <div className="flex gap-[12.81px]">
+          <Button
+            onClick={() => router.push("/signup")}
+            variant={"outline"}
+            className={`rounded-full leading-5 text-secondary-foreground ${
+              registeredWithEmail && "hidden"
+            }`}
+          >
+            Sign up
+          </Button>
+          <Button
+            onClick={() => router.push("/login")}
+            variant={"destructive"}
+            className={`rounded-full leading-5 text-primary-foreground ${
+              registeredWithEmail && "hidden"
+            }`}
+          >
+            Log in
+          </Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant={"destructive"}
+                className={`rounded-full leading-5 text-primary-foreground ${
+                  !registeredWithEmail && "hidden"
+                }`}
+              >
+                Log out
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription className="hidden" />
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleLogOut}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          {/* <div className="text-white">{userEmail}</div> */}
         </div>
       </div>
 

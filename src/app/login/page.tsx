@@ -25,6 +25,14 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
+  const userEmail = localStorage.getItem("userEmail");
+
+  const router = useRouter();
+  console.log(userEmail, "USEREMAIL");
+  if (userEmail) {
+    router.push("/");
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,9 +40,6 @@ const LoginPage = () => {
       password: "",
     },
   });
-
-  const router = useRouter();
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     const verifyUser = async () => {
       const response = await fetch("http://localhost:4000/api/login", {

@@ -23,12 +23,8 @@ const formSchema = z.object({
 
 export const SignupEmailForm = ({
   handleNextStep,
-  email,
-  setEmail,
 }: {
-  handleNextStep: () => void;
-  email: string;
-  setEmail: (email: string) => void;
+  handleNextStep: (_email: string) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,10 +36,7 @@ export const SignupEmailForm = ({
   const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.email.length) {
-      setEmail(values.email);
-    }
-    handleNextStep();
+    handleNextStep(values.email);
   }
 
   return (
