@@ -24,17 +24,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Input,
+  Separator,
 } from "@/components/ui";
 import { FiUser } from "react-icons/fi";
 import { LuShoppingCart } from "react-icons/lu";
 import { GrLocation } from "react-icons/gr";
 import { FaChevronRight } from "react-icons/fa6";
+import { CartFood } from "@/lib/type";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const Header = () => {
   const [registeredWithEmail, setRegisteredWithEmail] = useState<string | null>(
     null
   );
+  const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -46,6 +49,14 @@ export const Header = () => {
   // if (!registeredWithEmail) {
   //   router.push("/login");
   // }
+
+  useEffect(() => {
+    const foodsRecieved = JSON.parse(
+      localStorage.getItem("foodsAddedToCart") ?? ""
+    );
+    setCartFoods(foodsRecieved);
+  }, []);
+  console.log(cartFoods, "cartFoods");
 
   const handleLogOut = () => {
     localStorage.removeItem("userEmail");
@@ -111,61 +122,86 @@ export const Header = () => {
             </Button>
           </DialogTrigger>
 
-          <DialogContent>
-            <DialogHeader className="flex-row">
+          <DialogContent className="sm:max-w-[535px] p-8 gap-6 bg-neutral-700 text-primary-foreground border-none rounded-[20px]">
+            <DialogHeader className="flex-row gap-3 items-center py-1">
               <div>
-                <LuShoppingCart />
+                <LuShoppingCart size={24} />
               </div>
-              <DialogTitle>Order detail</DialogTitle>
+              <DialogTitle className="text-xl leading-7 text-primary-foreground">
+                Order detail
+              </DialogTitle>
               <DialogDescription className="hidden" />
-              <div>X</div>
             </DialogHeader>
 
-            <div className="flex justify-between">
-              <div>Cart</div>
-              <div>Order</div>
+            <div className="w-full flex gap-2 justify-between p-1 bg-background rounded-full">
+              <Button
+                variant={"destructive"}
+                className="flex-1 rounded-full bg-red-500"
+              >
+                Cart
+              </Button>
+              <Button
+                variant={"destructive"}
+                className="flex-1 rounded-full bg-red-500"
+              >
+                Order
+              </Button>
             </div>
 
-            <div className="flex flex-col p-4 gap-5">
-              <div>My cart</div>
+            <div className="felx flex-col gap-14">
+              <div className="flex flex-col p-4 gap-5 rounded-[20px] bg-background text-foreground">
+                <div>My cart</div>
 
-              <div className="flex gap-2.5">
-                <div className="w-31 h-30">
-                  <Image src="/hero.png" alt="" width={124} height={120} />
-                </div>
-
-                <div className="flex gap-2.5">
-                  <div>
-                    <div className="text-base leading-7 font-bold text-red-500">
-                      {"title-Sunshine Stackers "}
+                {cartFoods.length > 0 &&
+                  cartFoods.map((cartFood) => (
+                    <div key={cartFood.food._id}>
+                      <div className="flex gap-2.5">
+                        <div className="w-31 h-30 relative overflow-hidden">
+                          <Image
+                            src={cartFood.food.image}
+                            alt=""
+                            width={124}
+                            height={120}
+                            className="object-cover w-full h-full "
+                            unoptimized
+                          />
+                        </div>
+                        <div className="flex flex-col gap-6">
+                          <div className="flex gap-2.5">
+                            <div className="flex-1">
+                              <div>{cartFood.food.foodName}</div>
+                              <div>{cartFood.food.ingredients}</div>
+                            </div>
+                            <div className="w-9 h-9 rounded-full border border-red-500 bg-white flex justify-center items-center">
+                              <IoCloseOutline
+                                size={16}
+                                className="text-red-500"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex justify-between">
+                            <div className="flex">
+                              <Button></Button>
+                              <div>a;silfj</div>
+                              <Button></Button>
+                            </div>
+                            <div>${cartFood.food.price}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <Separator className="mt-5 border border-dashed border-[rgba(9,9,11,0.5)] bg-transparent" />
                     </div>
-                    <div className="text-xs leading-4 text-foreground">
-                      {
-                        "description-Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar."
-                      }
-                    </div>
-                    <div>
-                      <Button
-                        variant={"destructive"}
-                        className="size-9 rounded-full"
-                      >
-                        X
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="">
-                      <Button variant={"ghost"} className="size-9">
-                        -
-                      </Button>
-                      <div>{"same ID foods.length"}</div>
-                      <Button>+</Button>
-                    </div>
-                    <div>${"price-123"}</div>
-                  </div>
-                </div>
+                  ))}
               </div>
+              <div></div>
+            </div>
+
+            {/* my cart gej ehelj bga heseg paymentinfos umnu */}
+            <div className="flex flex-col p-4 gap-5">
+              <div>
+                <div>Delivery location</div>
+              </div>
+
               <Button>{"hasah"}</Button>
               <div>{"food too"}</div>
               <Button>{"nemeh"}</Button>

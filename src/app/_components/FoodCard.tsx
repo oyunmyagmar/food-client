@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CartFood, NewFoodType } from "@/lib/type";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger, Button } from "@/components/ui";
@@ -12,12 +12,9 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [added, setAdded] = useState<boolean>(false);
 
-  // const [foodsAddedToCart, setFoodsAddedToCart] = useState<NewFoodType[]>([]);
   const foodsAddedToCart: CartFood[] = [];
 
   const handleAddFoodToCart = (filteredFood: NewFoodType) => {
-    // alert(filteredFood._id);
-
     setAdded(true);
     alert("Food is being added to the cart!");
 
@@ -28,17 +25,11 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
     cartFoods.push({ food: filteredFood, quantity: 1 });
     // save to localstorage
     localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
-    console.log(cartFoods, "cartfooooooods");
+    console.log(cartFoods, "cartFoodscartFoods");
   };
 
   const handleIncrementQuantity = () => {
-    const cartFoods: CartFood[] = JSON.parse(
-      localStorage.getItem("foodsAddedToCart") ?? "[]"
-    );
-    cartFoods.push({ food: filteredFood, quantity: 1 });
-
-    localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
-    console.log(cartFoods, "cartfooooooods +++++");
+    setQuantity((quantity) => quantity + 1);
   };
 
   const handleDecrementQuantity = () => {
@@ -46,9 +37,13 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   };
 
   const handleAddFoodToCartFromCard = () => {
-    // foodsAddedToCart.push(filteredFood);
+    const cartFoods: CartFood[] = JSON.parse(
+      localStorage.getItem("foodsAddedToCart") ?? "[]"
+    );
+    cartFoods.push({ food: filteredFood, quantity: quantity });
+    localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
     alert("Food is being added to the cart!");
-    // localStorage.setItem("foodsAddedToCart", JSON.stringify(foodsAddedToCart));
+    setOpen(false);
   };
 
   return (
@@ -140,12 +135,12 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
                 <div className="text-foreground">
                   <div className="text-base leading-6">Total price</div>
                   <div className="text-2xl leading-8 font-semibold">
-                    ${filteredFood.price}
+                    ${filteredFood.price * quantity}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Button
-                    onClick={handleDecrementQuantity}
+                    onClick={() => handleDecrementQuantity()}
                     variant={"outline"}
                     className={`w-11 h-11 rounded-full border-foreground ${
                       quantity === 1 && "border-input"
