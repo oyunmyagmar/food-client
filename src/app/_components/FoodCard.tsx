@@ -6,26 +6,29 @@ import { Dialog, DialogContent, DialogTrigger, Button } from "@/components/ui";
 import { FaPlus, FaCheck } from "react-icons/fa6";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [open, setOpen] = useState<boolean>(false);
   const [added, setAdded] = useState<boolean>(false);
+  const router = useRouter();
 
   const foodsAddedToCart: CartFood[] = [];
 
-  const handleAddFoodToCart = (filteredFood: NewFoodType) => {
-    setAdded(true);
-    alert("Food is being added to the cart!");
-
+  const handleAddSingleFoodToCart = (filteredFood: NewFoodType) => {
     // get from localstorage
     const cartFoods: CartFood[] = JSON.parse(
       localStorage.getItem("foodsAddedToCart") ?? "[]"
     );
+
     cartFoods.push({ food: filteredFood, quantity: 1 });
     // save to localstorage
     localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
-    console.log(cartFoods, "cartFoodscartFoods");
+
+    setAdded(true);
+    alert("Food is being added to the cart!");
+    router.push("/");
   };
 
   const handleIncrementQuantity = () => {
@@ -36,14 +39,18 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
     quantity > 1 && setQuantity((quantity) => quantity - 1);
   };
 
-  const handleAddFoodToCartFromCard = () => {
+  const handleAddMultiFoodsToCart = () => {
     const cartFoods: CartFood[] = JSON.parse(
       localStorage.getItem("foodsAddedToCart") ?? "[]"
     );
+
     cartFoods.push({ food: filteredFood, quantity: quantity });
     localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
-    alert("Food is being added to the cart!");
+
     setOpen(false);
+    alert("Food is being added to the cart!");
+    router.push("/");
+    alert("Please write your delivery address!");
   };
 
   return (
@@ -70,7 +77,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
             className={`size-11 rounded-full ${
               added && "bg-primary border-none hover:bg-primary"
             }`}
-            onClick={() => handleAddFoodToCart(filteredFood)}
+            onClick={() => handleAddSingleFoodToCart(filteredFood)}
           >
             <FaPlus size={16} className={`text-red-500 ${added && "hidden"}`} />
             <FaCheck size={16} className={`${!added && "hidden"}`} />
@@ -164,7 +171,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
               <div>
                 <Button
                   className="w-full rounded-full h-11 py-3"
-                  onClick={() => handleAddFoodToCartFromCard()}
+                  onClick={() => handleAddMultiFoodsToCart()}
                 >
                   Add to cart
                 </Button>

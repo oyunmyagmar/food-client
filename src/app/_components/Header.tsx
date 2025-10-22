@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -17,14 +17,14 @@ import {
   HoverCardContent,
   HoverCardTrigger,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
   Separator,
+  Textarea,
+  DialogFooter,
 } from "@/components/ui";
 import { FiUser } from "react-icons/fi";
 import { LuShoppingCart } from "react-icons/lu";
@@ -32,12 +32,17 @@ import { GrLocation } from "react-icons/gr";
 import { FaChevronRight } from "react-icons/fa6";
 import { CartFood } from "@/lib/type";
 import { IoCloseOutline } from "react-icons/io5";
+import { FiMinus, FiPlus } from "react-icons/fi";
 
 export const Header = () => {
   const [registeredWithEmail, setRegisteredWithEmail] = useState<string | null>(
     null
   );
   const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
+  const [isOpenAddress, setIsOpenAddress] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>("");
+  const [deliveryAddress, setDeliveryAddress] = useState<string | null>("");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -51,10 +56,10 @@ export const Header = () => {
   // }
 
   useEffect(() => {
-    const foodsRecieved = JSON.parse(
-      localStorage.getItem("foodsAddedToCart") ?? ""
+    const foodsFromLocal = JSON.parse(
+      localStorage.getItem("foodsAddedToCart") ?? "[]"
     );
-    setCartFoods(foodsRecieved);
+    setCartFoods(foodsFromLocal);
   }, []);
   console.log(cartFoods, "cartFoods");
 
@@ -62,6 +67,24 @@ export const Header = () => {
     localStorage.removeItem("userEmail");
     router.push("/login");
   };
+
+  const handleCloseAddressInput = () => {
+    setIsOpenAddress(false);
+  };
+
+  const addressHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setAddress(e.target.value);
+  };
+
+  const handleAddAddressToCart = () => {
+    localStorage.setItem("userAddress", address);
+    setIsOpenAddress(false);
+  };
+
+  useEffect(() => {
+    const locationAddress = localStorage.getItem("userAddress");
+    setDeliveryAddress(locationAddress);
+  }, []);
 
   return (
     <header className="w-360 px-22 py-3 flex justify-between bg-primary items-center m-auto">
@@ -104,16 +127,52 @@ export const Header = () => {
           Log in
         </Button>
 
-        <div className="flex items-center px-3 py-2 gap-1 rounded-full bg-background text-xs leading-4">
-          <div>
-            <GrLocation size={20} className="text-red-500" />
-          </div>
-          <div className="text-red-500">Delivery address:</div>
-          <div className="text-muted-foreground">Add Location</div>
-          <div>
-            <FaChevronRight size={20} className="text-neutral-900/50" />
-          </div>
-        </div>
+        <Dialog open={isOpenAddress} onOpenChange={setIsOpenAddress}>
+          <DialogTrigger>
+            <div className="flex items-center px-3 py-2 gap-1 rounded-full bg-background text-xs leading-4">
+              <div>
+                <GrLocation size={20} className="text-red-500" />
+              </div>
+              <div className="text-red-500">Delivery address:</div>
+              <div className="text-muted-foreground">Add Location</div>
+              <div className="w-5 h-5 flex items-center justify-center">
+                <FaChevronRight className="text-[#18181B]/50" />
+              </div>
+            </div>
+          </DialogTrigger>
+
+          <DialogContent className="sm:max-w-[502px] rounded-[20px] gap-6">
+            <DialogHeader>
+              <DialogTitle>Please write your delivery address!</DialogTitle>
+              <DialogDescription />
+            </DialogHeader>
+
+            <Textarea
+              placeholder="Please share your complete address"
+              className="text-sm h-20"
+              value={address}
+              onChange={addressHandler}
+            />
+
+            <DialogFooter className="flex-row gap-4 mt-6">
+              <Button
+                onClick={handleCloseAddressInput}
+                type="button"
+                variant="outline"
+                className="h-10"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleAddAddressToCart}
+                type="button"
+                className="h-10"
+              >
+                Deliver Here
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         <Dialog>
           <DialogTrigger asChild>
@@ -148,8 +207,8 @@ export const Header = () => {
               </Button>
             </div>
 
-            <div className="felx flex-col gap-14">
-              <div className="flex flex-col p-4 gap-5 rounded-[20px] bg-background text-foreground">
+            <div className="flex flex-col gap-14 bg-background text-foreground p-4 rounded-[20px]">
+              <div className="flex flex-col gap-5">
                 <div>My cart</div>
 
                 {cartFoods.length > 0 &&
@@ -169,7 +228,7 @@ export const Header = () => {
                         <div className="flex flex-col gap-6">
                           <div className="flex gap-2.5">
                             <div className="flex-1">
-                              <div>{cartFood.food.foodName}</div>
+                              <div>{cartFood.food.foodName}</div>``
                               <div>{cartFood.food.ingredients}</div>
                             </div>
                             <div className="w-9 h-9 rounded-full border border-red-500 bg-white flex justify-center items-center">
@@ -180,12 +239,18 @@ export const Header = () => {
                             </div>
                           </div>
                           <div className="flex justify-between">
-                            <div className="flex">
-                              <Button></Button>
-                              <div>a;silfj</div>
-                              <Button></Button>
+                            <div className="flex items-center">
+                              <Button variant={"ghost"} className="size-9">
+                                <FiMinus size={16} />
+                              </Button>
+                              <div>{cartFood.quantity}</div>
+                              <Button variant={"ghost"} className="size-9">
+                                <FiPlus size={16} />
+                              </Button>
                             </div>
-                            <div>${cartFood.food.price}</div>
+                            <div>
+                              ${cartFood.food.price * cartFood.quantity}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -193,26 +258,39 @@ export const Header = () => {
                     </div>
                   ))}
               </div>
-              <div></div>
+              <div className="flex flex-col gap-2">
+                <div>Delivery location</div>
+                <Textarea className="h-20" value={deliveryAddress} />
+              </div>
             </div>
 
-            {/* my cart gej ehelj bga heseg paymentinfos umnu */}
-            <div className="flex flex-col p-4 gap-5">
+            <div className="bg-background text-foreground flex flex-col p-4 gap-5 rounded-[20px]">
+              <div>Payment info</div>
               <div>
-                <div>Delivery location</div>
+                <div className="flex justify-between">
+                  <div>Items</div>
+                  <div>$</div>
+                </div>
+                <div className="flex justify-between">
+                  <div>Shipping</div>
+                  <div>1$</div>
+                </div>
               </div>
 
-              <Button>{"hasah"}</Button>
-              <div>{"food too"}</div>
-              <Button>{"nemeh"}</Button>
-            </div>
+              <Separator className="border border-dashed border-[rgba(9,9,11,0.5)] bg-transparent" />
 
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
+              <div className="flex justify-between">
+                <div>Total</div>
+                <div>$</div>
+              </div>
+
+              <Button
+                variant="destructive"
+                className="w-full rounded-full bg-red-500"
+              >
+                Checkout
+              </Button>
+            </div>
           </DialogContent>
         </Dialog>
 
