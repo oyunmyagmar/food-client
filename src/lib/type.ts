@@ -15,3 +15,8 @@ export type NewFoodType = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type CartFood = {
+  food: NewFoodType;
+  quantity: number;
+};

@@ -112,23 +112,65 @@ export const Header = () => {
           </DialogTrigger>
 
           <DialogContent>
-            <Image src={""} alt="" />
-            <DialogHeader>
-              <DialogTitle>Sunshine Stackers</DialogTitle>
-              <DialogDescription>
-                Fluffy pancakes stacked with fruits, cream, syrup, and powdered
-                sugar.
-              </DialogDescription>
+            <DialogHeader className="flex-row">
+              <div>
+                <LuShoppingCart />
+              </div>
+              <DialogTitle>Order detail</DialogTitle>
+              <DialogDescription className="hidden" />
+              <div>X</div>
             </DialogHeader>
-            <div>
-              <div>Total price</div>
-              <div>{"price"}</div>
+
+            <div className="flex justify-between">
+              <div>Cart</div>
+              <div>Order</div>
             </div>
-            <div>
+
+            <div className="flex flex-col p-4 gap-5">
+              <div>My cart</div>
+
+              <div className="flex gap-2.5">
+                <div className="w-31 h-30">
+                  <Image src="/hero.png" alt="" width={124} height={120} />
+                </div>
+
+                <div className="flex gap-2.5">
+                  <div>
+                    <div className="text-base leading-7 font-bold text-red-500">
+                      {"title-Sunshine Stackers "}
+                    </div>
+                    <div className="text-xs leading-4 text-foreground">
+                      {
+                        "description-Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar."
+                      }
+                    </div>
+                    <div>
+                      <Button
+                        variant={"destructive"}
+                        className="size-9 rounded-full"
+                      >
+                        X
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="">
+                      <Button variant={"ghost"} className="size-9">
+                        -
+                      </Button>
+                      <div>{"same ID foods.length"}</div>
+                      <Button>+</Button>
+                    </div>
+                    <div>${"price-123"}</div>
+                  </div>
+                </div>
+              </div>
               <Button>{"hasah"}</Button>
               <div>{"food too"}</div>
               <Button>{"nemeh"}</Button>
             </div>
+
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>

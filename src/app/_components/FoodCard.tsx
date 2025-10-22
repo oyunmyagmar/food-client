@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { NewFoodType } from "@/lib/type";
+import { CartFood, NewFoodType } from "@/lib/type";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger, Button } from "@/components/ui";
 import { FaPlus, FaCheck } from "react-icons/fa6";
@@ -11,23 +11,44 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [open, setOpen] = useState<boolean>(false);
   const [added, setAdded] = useState<boolean>(false);
+
   // const [foodsAddedToCart, setFoodsAddedToCart] = useState<NewFoodType[]>([]);
-  const foodsAddedToCart: NewFoodType[] = [];
+  const foodsAddedToCart: CartFood[] = [];
 
   const handleAddFoodToCart = (filteredFood: NewFoodType) => {
     // alert(filteredFood._id);
-    foodsAddedToCart.push(filteredFood);
+
     setAdded(true);
     alert("Food is being added to the cart!");
-    localStorage.setItem("foodsAddedToCart", JSON.stringify(foodsAddedToCart));
+
+    // get from localstorage
+    const cartFoods: CartFood[] = JSON.parse(
+      localStorage.getItem("foodsAddedToCart") ?? "[]"
+    );
+    cartFoods.push({ food: filteredFood, quantity: 1 });
+    // save to localstorage
+    localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
+    console.log(cartFoods, "cartfooooooods");
   };
 
   const handleIncrementQuantity = () => {
-    setQuantity((quantity) => quantity + 1);
+    const cartFoods: CartFood[] = JSON.parse(
+      localStorage.getItem("foodsAddedToCart") ?? "[]"
+    );
+    cartFoods.push({ food: filteredFood, quantity: 1 });
+
+    localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
+    console.log(cartFoods, "cartfooooooods +++++");
   };
 
   const handleDecrementQuantity = () => {
     quantity > 1 && setQuantity((quantity) => quantity - 1);
+  };
+
+  const handleAddFoodToCartFromCard = () => {
+    // foodsAddedToCart.push(filteredFood);
+    alert("Food is being added to the cart!");
+    // localStorage.setItem("foodsAddedToCart", JSON.stringify(foodsAddedToCart));
   };
 
   return (
@@ -146,7 +167,10 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
               </div>
 
               <div>
-                <Button className="w-full rounded-full h-11 py-3">
+                <Button
+                  className="w-full rounded-full h-11 py-3"
+                  onClick={() => handleAddFoodToCartFromCard()}
+                >
                   Add to cart
                 </Button>
               </div>
