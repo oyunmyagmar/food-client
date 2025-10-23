@@ -33,16 +33,19 @@ export const ShopCart = ({
   });
 
   const createOrder = async () => {
-    const response = await fetch("http://localhost:4000/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cartFoods,
-        deliveryAddress,
-        cartItemsTotalPrice,
-        registeredWithEmail,
-      }),
-    });
+    const response = await fetch(
+      "https://food-next-backend.vercel.app/api/orders",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cartFoods,
+          deliveryAddress,
+          cartItemsTotalPrice,
+          registeredWithEmail,
+        }),
+      }
+    );
 
     const res = await response.json();
     console.log(res, "KGYOI");
