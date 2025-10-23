@@ -47,6 +47,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
     cartFoods.push({ food: filteredFood, quantity: quantity });
     localStorage.setItem("foodsAddedToCart", JSON.stringify(cartFoods));
 
+    setQuantity(1);
     setOpen(false);
     alert("Food is being added to the cart!");
     router.push("/");
@@ -71,13 +72,15 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
           )}
         </div>
 
-        <div className="absolute z-50 ml-[301.3px] mt-[146px]">
+        <div
+          onClick={() => handleAddSingleFoodToCart(filteredFood)}
+          className="absolute z-50 ml-[301.3px] mt-[146px]"
+        >
           <Button
             variant={"outline"}
             className={`size-11 rounded-full ${
               added && "bg-primary border-none hover:bg-primary"
             }`}
-            onClick={() => handleAddSingleFoodToCart(filteredFood)}
           >
             <FaPlus size={16} className={`text-red-500 ${added && "hidden"}`} />
             <FaCheck size={16} className={`${!added && "hidden"}`} />
@@ -86,7 +89,11 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
+        <DialogTrigger
+          asChild
+          className="cursor-pointer"
+          // disabled={handleAddMultiFoodsToCart}
+        >
           <div className="flex flex-col gap-2">
             <div className="flex gap-2.5 font-semibold items-center">
               <div className="text-2xl leading-8 text-red-500 flex-1">

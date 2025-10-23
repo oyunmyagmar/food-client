@@ -27,7 +27,7 @@ export const UserLogState = ({ email }: { email: string | null }) => {
   return (
     <div className={`${!email && "hidden"}`}>
       <HoverCard>
-        <HoverCardTrigger asChild>
+        <HoverCardTrigger asChild className="cursor-pointer">
           <Button
             variant={"destructive"}
             className="size-9 rounded-full bg-red-500"

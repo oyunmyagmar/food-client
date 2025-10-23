@@ -10,7 +10,7 @@ const SignupPage = () => {
   const [step, setStep] = useState<number>(0);
   const StepComponents = [SignupEmailForm, SignupPasswordForm][step];
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  // const [password, setPassword] = useState<string>("");
 
   const handleNextStep = (email: string) => {
     setEmail(email);

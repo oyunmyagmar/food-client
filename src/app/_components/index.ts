@@ -5,3 +5,4 @@ export * from "./Footer";
 export * from "./ShopCart";
 export * from "./Logo";
 export * from "./UserLogState";
+export * from "./LogoImg";

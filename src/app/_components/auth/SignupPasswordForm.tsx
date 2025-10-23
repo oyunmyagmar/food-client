@@ -47,7 +47,6 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(email, "EMAIL");
     console.log(values.password, "PASSS");
-    // const createUser = async () => {
     try {
       const response = await fetch("http://localhost:4000/api/signup", {
         method: "POST",
@@ -68,8 +67,6 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
     } catch (error) {
       console.error(error);
     }
-    // };
-    // createUser();
   }
 
   return (
