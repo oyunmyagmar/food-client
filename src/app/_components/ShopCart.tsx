@@ -37,7 +37,7 @@ export const ShopCart = ({ email }: { email: string }) => {
     setCartFoods(foodsFromLocal);
   };
 
-  const createOrder = async () => {
+  const createOrder = async (email: string) => {
     const response = await fetch("http://localhost:4000/api/orders", {
       method: "POST",
       mode: "no-cors",
@@ -55,8 +55,8 @@ export const ShopCart = ({ email }: { email: string }) => {
       alert("Your order has been successfully placed !");
     }
 
-    const res = await fetch(`http://localhost:4000/api/signup`, {
-      method: "PUT",
+    const res = await fetch(`http://localhost:4000/api/signup${email}`, {
+      method: "PATCH",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ address }),
@@ -182,7 +182,6 @@ export const ShopCart = ({ email }: { email: string }) => {
 
             <Button
               disabled={true}
-              onClick={createOrder}
               variant="destructive"
               className="w-full rounded-full h-11 bg-red-500"
             >
