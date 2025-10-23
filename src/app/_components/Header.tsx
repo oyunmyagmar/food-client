@@ -3,18 +3,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Button,
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -24,30 +12,27 @@ import {
   Textarea,
   DialogFooter,
 } from "@/components/ui";
-import { FiUser } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 import { FaChevronRight } from "react-icons/fa6";
 import { CartFood } from "@/lib/type";
-import { Logo, ShopCart } from "@/app/_components";
+import { Logo, ShopCart, UserLogState } from "@/app/_components";
 
 export const Header = () => {
-  const [registeredWithEmail, setRegisteredWithEmail] = useState<string | null>(
-    null
-  );
+  const [email, setEmail] = useState<string>("");
   const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
   const [isOpenAddress, setIsOpenAddress] = useState<boolean>(false);
   const [address, setAddress] = useState<string>("");
-  const [deliveryAddress, setDeliveryAddress] = useState<string | null>("");
+  const [deliveryAddress, setDeliveryAddress] = useState<string>("");
 
   const router = useRouter();
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
-    setRegisteredWithEmail(userEmail);
+    userEmail && setEmail(userEmail);
   }, []);
 
-  // console.log(registeredWithEmail);
-  // if (!registeredWithEmail) {
+  // console.log(email);
+  // if (!email) {
   //   router.push("/login");
   // }
 
@@ -57,12 +42,8 @@ export const Header = () => {
     );
     setCartFoods(foodsFromLocal);
   }, []);
-  console.log(cartFoods, "cartFoods");
 
-  const handleLogOut = () => {
-    localStorage.removeItem("userEmail");
-    router.push("/login");
-  };
+  console.log(cartFoods, "cartFoods");
 
   const handleCloseAddressInput = () => {
     setIsOpenAddress(false);
@@ -79,7 +60,7 @@ export const Header = () => {
 
   useEffect(() => {
     const locationAddress = localStorage.getItem("userAddress");
-    setDeliveryAddress(locationAddress);
+    locationAddress && setDeliveryAddress(locationAddress);
   }, []);
 
   return (
@@ -90,14 +71,18 @@ export const Header = () => {
         <Button
           onClick={() => router.push("/signup")}
           variant={"outline"}
-          className={`rounded-full leading-5 text-secondary-foreground`}
+          className={`rounded-full leading-5 text-secondary-foreground ${
+            email && "hidden"
+          }`}
         >
           Sign up
         </Button>
         <Button
           onClick={() => router.push("/login")}
           variant={"destructive"}
-          className={`rounded-full leading-5 text-primary-foreground bg-red-500`}
+          className={`rounded-full leading-5 text-primary-foreground bg-red-500 ${
+            email && "hidden"
+          }`}
         >
           Log in
         </Button>
@@ -149,55 +134,9 @@ export const Header = () => {
           </DialogContent>
         </Dialog>
 
-        <ShopCart
-          cartFoods={cartFoods}
-          deliveryAddress={deliveryAddress}
-          registeredWithEmail={registeredWithEmail}
-        />
+        <ShopCart deliveryAddress={deliveryAddress} email={email} />
 
-        <HoverCard>
-          <HoverCardTrigger asChild>
-            <Button
-              variant={"destructive"}
-              className="size-9 rounded-full bg-red-500"
-            >
-              <FiUser size={16} />
-            </Button>
-          </HoverCardTrigger>
-
-          <HoverCardContent className="bg-background rounded-xl">
-            <div className="flex flex-col gap-2 items-center">
-              <div className="text-xl leading-7 font-semibold text-foreground">
-                {registeredWithEmail}
-              </div>
-
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    variant={"secondary"}
-                    className={`rounded-full leading-5 text-secondary-foreground`}
-                  >
-                    Sign out
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you sure you want to sign out?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription className="hidden" />
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleLogOut}>
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </HoverCardContent>
-        </HoverCard>
+        <UserLogState email={email} />
       </div>
     </header>
   );

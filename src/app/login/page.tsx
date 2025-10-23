@@ -25,18 +25,16 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
-  const [registeredWithEmail, setRegisteredWithEmail] = useState<string | null>(
-    null
-  );
+  const [email, setEmail] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
-    setRegisteredWithEmail(userEmail);
+    setEmail(userEmail);
   }, []);
 
-  console.log(registeredWithEmail);
-  if (registeredWithEmail) {
+  console.log(email);
+  if (email) {
     router.push("/");
   }
 
