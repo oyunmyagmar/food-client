@@ -22,7 +22,7 @@ export const Header = () => {
   const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
   const [isOpenAddress, setIsOpenAddress] = useState<boolean>(false);
   const [address, setAddress] = useState<string>("");
-  const [deliveryAddress, setDeliveryAddress] = useState<string>("");
+  // const [deliveryAddress, setDeliveryAddress] = useState<string>("");
 
   const router = useRouter();
 
@@ -49,19 +49,20 @@ export const Header = () => {
     setIsOpenAddress(false);
   };
 
-  const addressHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const addressChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setAddress(e.target.value);
   };
 
   const handleAddAddressToCart = () => {
     localStorage.setItem("userAddress", address);
     setIsOpenAddress(false);
+    setAddress("");
   };
 
-  useEffect(() => {
-    const locationAddress = localStorage.getItem("userAddress");
-    locationAddress && setDeliveryAddress(locationAddress);
-  }, []);
+  // useEffect(() => {
+  //   const locationAddress = localStorage.getItem("userAddress");
+  //   locationAddress && setDeliveryAddress(locationAddress);
+  // }, []);
 
   return (
     <header className="w-360 px-22 py-3 flex justify-between bg-primary items-center m-auto">
@@ -111,7 +112,7 @@ export const Header = () => {
               placeholder="Please share your complete address"
               className="text-sm h-20"
               value={address}
-              onChange={addressHandler}
+              onChange={addressChangeHandler}
             />
 
             <DialogFooter className="flex-row gap-4 mt-6">
@@ -134,7 +135,7 @@ export const Header = () => {
           </DialogContent>
         </Dialog>
 
-        <ShopCart deliveryAddress={deliveryAddress} email={email} />
+        <ShopCart email={email} />
 
         <UserLogState email={email} />
       </div>

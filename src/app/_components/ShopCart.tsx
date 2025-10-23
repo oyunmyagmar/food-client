@@ -12,22 +12,13 @@ import {
 } from "@/components/ui";
 import { LuShoppingCart } from "react-icons/lu";
 import { CartFood } from "@/lib/type";
-import Image from "next/image";
-import { IoCloseOutline } from "react-icons/io5";
-import { FiMinus, FiPlus } from "react-icons/fi";
 import { LogoImg } from "./LogoImg";
+import { CartCardItem } from "./CartCardItem";
 
-export const ShopCart = ({
-  deliveryAddress,
-  email,
-}: {
-  deliveryAddress: string;
-  email: string;
-}) => {
+export const ShopCart = ({ email }: { email: string }) => {
   const [address, setAddress] = useState<string>("");
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
-  const [count, setCount] = useState<number>();
 
   const shippingPrice = 0.99;
 
@@ -44,21 +35,6 @@ export const ShopCart = ({
       localStorage.getItem("foodsAddedToCart") ?? "[]"
     );
     setCartFoods(foodsFromLocal);
-  };
-
-  const decrementCartFoodQuant = () => {};
-  const incrementCartFoodQuant = () => {};
-
-  const deleteItemFromCart = (id: string) => {
-    const foodsFromLocal = JSON.parse(
-      localStorage.getItem("foodsAddedToCart") ?? "[]"
-    );
-
-    const remainedFoods = foodsFromLocal.filter((el) => el.food._id !== id);
-    console.log(remainedFoods, "remained");
-    localStorage.setItem("foodsAddedToCart", JSON.stringify(remainedFoods));
-
-    reloadFoods();
   };
 
   const createOrder = async () => {
@@ -79,16 +55,21 @@ export const ShopCart = ({
       alert("Your order has been successfully placed !");
     }
 
-    // const res = await fetch(`http://localhost:4000/api/signup/${1}`, {
-    //   method: "PUT",
-    //   mode: "no-cors",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ deliveryAddress }),
-    // });
+    const res = await fetch(`http://localhost:4000/api/signup`, {
+      method: "PUT",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ address }),
+    });
 
-    // const resRes = await res.json();
-    // console.log(resRes, "deliveryAddressdeliveryAddress");
+    const resRes = await res.json();
+    console.log(resRes, "deliveryAddressdeliveryAddress");
   };
+
+  useEffect(() => {
+    const locationAddress = localStorage.getItem("userAddress");
+    locationAddress && setAddress(locationAddress);
+  }, []);
 
   return (
     <Drawer direction="right" open={cartOpen} onOpenChange={setCartOpen}>
@@ -138,72 +119,7 @@ export const ShopCart = ({
 
             {cartFoods.length > 0 ? (
               cartFoods.map((cartFood) => (
-                <div key={cartFood.food._id}>
-                  <div className="w-full flex gap-2.5">
-                    <div className="w-31 h-30 rounded-xl relative overflow-hidden">
-                      <Image
-                        src={cartFood.food.image}
-                        alt=""
-                        width={124}
-                        height={120}
-                        className="object-cover w-full h-full"
-                        unoptimized
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex flex-col gap-6">
-                        <div className="flex gap-2.5">
-                          <div className="flex-1">
-                            <div className="text-base leading-7 font-bold text-red-500">
-                              {cartFood.food.foodName}
-                            </div>
-                            <div className="text-xs leading-4 text-foreground">
-                              {cartFood.food.ingredients}
-                            </div>
-                          </div>
-
-                          <div
-                            onClick={() =>
-                              deleteItemFromCart(cartFood.food._id)
-                            }
-                            className="w-9 h-9 rounded-full border border-red-500 bg-white flex justify-center items-center"
-                          >
-                            <IoCloseOutline
-                              size={16}
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex justify-between text-foreground">
-                          <div className="flex items-center">
-                            <Button
-                              onClick={decrementCartFoodQuant}
-                              variant={"ghost"}
-                              className="size-9"
-                            >
-                              <FiMinus size={16} />
-                            </Button>
-                            <div className="text-lg leading-7 font-semibold">
-                              {cartFood.quantity}
-                            </div>
-                            <Button
-                              onClick={incrementCartFoodQuant}
-                              variant={"ghost"}
-                              className="size-9"
-                            >
-                              <FiPlus size={16} />
-                            </Button>
-                          </div>
-                          <div className="text-base leading-7 font-bold">
-                            ${cartFood.food.price * cartFood.quantity}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <Separator className="mt-5 border border-dashed border-[rgba(9,9,11,0.5)] bg-transparent" />
-                </div>
+                <CartCardItem cartFood={cartFood} reloadFoods={reloadFoods} />
               ))
             ) : (
               <div className="py-8 px-12 flex flex-col gap-1 bg-secondary rounded-xl items-center">
@@ -224,15 +140,15 @@ export const ShopCart = ({
               <div className="text-xl leading-7 font-semibold text-muted-foreground">
                 Delivery location
               </div>
-              {deliveryAddress && (
+              {address && (
                 <Textarea
                   className="h-20 leading-5"
                   placeholder="Please share your complete address"
-                  defaultValue={deliveryAddress}
+                  defaultValue={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
               )}
-              {!deliveryAddress?.length && (
+              {!address?.length && (
                 <div className="text-[12.8px] leading-[19.2px] text-destructive">
                   Please complete your address
                 </div>
@@ -299,7 +215,7 @@ export const ShopCart = ({
             </div>
 
             <Button
-              onClick={createOrder}
+              onClick={() => createOrder(email)}
               variant="destructive"
               className="w-full rounded-full h-11 bg-red-500"
             >
