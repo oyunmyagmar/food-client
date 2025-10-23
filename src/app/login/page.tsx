@@ -13,9 +13,13 @@ import {
   Input,
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CreateNewPass, ResetPass, VerifyEmail } from "../_components/auth";
+import {
+  CreateNewPass,
+  LogImage,
+  ResetPass,
+  VerifyEmail,
+} from "../_components/auth";
 
 const formSchema = z.object({
   email: z.email({
@@ -163,15 +167,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl overflow-hidden">
-        <Image
-          width={856}
-          height={904}
-          src="/login.jpg"
-          alt="image"
-          className="object-cover w-full h-full"
-        />
-      </div>
+      <LogImage />
     </div>
   );
 };

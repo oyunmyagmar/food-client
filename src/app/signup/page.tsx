@@ -1,7 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
-import { SignupEmailForm, SignupPasswordForm } from "../_components/auth";
+import {
+  LogImage,
+  SignupEmailForm,
+  SignupPasswordForm,
+} from "../_components/auth";
 
 const SignupPage = () => {
   const [step, setStep] = useState<number>(0);
@@ -19,15 +22,7 @@ const SignupPage = () => {
       <div className="mt-[226px]">
         <StepComponents email={email} handleNextStep={handleNextStep} />
       </div>
-      <div className="rounded-2xl overflow-hidden">
-        <Image
-          width={856}
-          height={904}
-          src="/login.jpg"
-          alt="image"
-          className="object-cover w-full h-full"
-        />
-      </div>
+      <LogImage />
     </div>
   );
 };
