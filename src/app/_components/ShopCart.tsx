@@ -19,7 +19,7 @@ import { CartCardItem } from "./CartCardItem";
 export const ShopCart = () => {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
-  const [id, setId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   const [address, setAddress] = useState<string>("");
 
   const shippingPrice = 0.99;
@@ -41,7 +41,7 @@ export const ShopCart = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-    userId && setId(userId);
+    userId && setUserId(userId);
     const userAddress = localStorage.getItem("userAddress");
     userAddress && setAddress(userAddress);
   }, []);
@@ -52,7 +52,7 @@ export const ShopCart = () => {
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id,
+        userId,
         cartItemsTotalPrice,
         cartFoods,
         address,

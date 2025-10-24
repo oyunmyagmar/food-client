@@ -22,6 +22,7 @@ export const UserLogState = ({ email }: { email: string | null }) => {
 
   const userLogOutHandler = () => {
     localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
     router.push("/login");
   };
   return (
