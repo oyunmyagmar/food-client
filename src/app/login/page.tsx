@@ -37,7 +37,6 @@ const LoginPage = () => {
     setEmail(userEmail);
   }, []);
 
-  console.log(email);
   if (email) {
     router.push("/");
   }
@@ -50,35 +49,36 @@ const LoginPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const verifyUser = async () => {
-      const response = await fetch("http://localhost:4000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: values?.email,
-          password: values?.password,
-        }),
-      });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await fetch("http://localhost:4000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: values?.email,
+        password: values?.password,
+      }),
+    });
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          alert("Invalid email! Please try again.");
-        } else if (response.status === 400) {
-          alert("Incorrect password! Please try again.");
-        }
+    if (!response.ok) {
+      if (response.status === 401) {
+        alert("Invalid email! Please try again.");
+      } else if (response.status === 400) {
+        alert("Incorrect password! Please try again.");
       }
+    }
 
-      const res = await response.json();
-      if (res.success) {
-        alert(res.message);
-        localStorage.setItem("userEmail", values.email);
-        router.push("/");
-      }
-    };
-    verifyUser();
+    const res = await response.json();
+    const userId = res.user._id;
+
+    if (res.success) {
+      alert(res.message);
+
+      localStorage.setItem("userEmail", values.email);
+      localStorage.setItem("userId", userId);
+      router.push("/");
+    }
   }
 
   return (

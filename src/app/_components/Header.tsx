@@ -43,7 +43,7 @@ export const Header = () => {
     setCartFoods(foodsFromLocal);
   }, []);
 
-  console.log(cartFoods, "cartFoods");
+  // console.log(cartFoods, "cartFoods");
 
   const handleCloseAddressInput = () => {
     setIsOpenAddress(false);
@@ -53,7 +53,7 @@ export const Header = () => {
     setAddress(e.target.value);
   };
 
-  const handleAddAddressToCart = () => {
+  const handleAddAddressToLocalStorage = () => {
     localStorage.setItem("userAddress", address);
     setIsOpenAddress(false);
     setAddress("");
@@ -125,7 +125,7 @@ export const Header = () => {
                 Cancel
               </Button>
               <Button
-                onClick={handleAddAddressToCart}
+                onClick={handleAddAddressToLocalStorage}
                 type="button"
                 className="h-10"
               >
@@ -135,7 +135,7 @@ export const Header = () => {
           </DialogContent>
         </Dialog>
 
-        <ShopCart email={email} />
+        <ShopCart />
 
         <UserLogState email={email} />
       </div>

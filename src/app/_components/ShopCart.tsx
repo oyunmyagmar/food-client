@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -15,10 +16,11 @@ import { CartFood } from "@/lib/type";
 import { LogoImg } from "./LogoImg";
 import { CartCardItem } from "./CartCardItem";
 
-export const ShopCart = ({ email }: { email: string }) => {
-  const [address, setAddress] = useState<string>("");
+export const ShopCart = () => {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [cartFoods, setCartFoods] = useState<CartFood[]>([]);
+  const [id, setId] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
 
   const shippingPrice = 0.99;
 
@@ -37,14 +39,23 @@ export const ShopCart = ({ email }: { email: string }) => {
     setCartFoods(foodsFromLocal);
   };
 
-  const createOrder = async (email: string) => {
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    userId && setId(userId);
+    const userAddress = localStorage.getItem("userAddress");
+    userAddress && setAddress(userAddress);
+  }, []);
+
+  const createOrder = async () => {
     const response = await fetch("http://localhost:4000/api/orders", {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        cartFoods,
+        id,
         cartItemsTotalPrice,
+        cartFoods,
+        address,
       }),
     });
 
@@ -54,22 +65,7 @@ export const ShopCart = ({ email }: { email: string }) => {
     } else {
       alert("Your order has been successfully placed !");
     }
-
-    const res = await fetch(`http://localhost:4000/api/signup${email}`, {
-      method: "PATCH",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ address }),
-    });
-
-    const resRes = await res.json();
-    console.log(resRes, "deliveryAddressdeliveryAddress");
   };
-
-  useEffect(() => {
-    const locationAddress = localStorage.getItem("userAddress");
-    locationAddress && setAddress(locationAddress);
-  }, []);
 
   return (
     <Drawer direction="right" open={cartOpen} onOpenChange={setCartOpen}>
@@ -87,7 +83,7 @@ export const ShopCart = ({ email }: { email: string }) => {
           <DrawerTitle className="text-xl leading-7 text-primary-foreground">
             Order detail
           </DrawerTitle>
-          <DrawerDescription className="hidden" />
+          <DrawerDescription />
         </DrawerHeader>
 
         <div className="w-full flex gap-2 justify-between p-1 bg-background rounded-full">
@@ -119,7 +115,11 @@ export const ShopCart = ({ email }: { email: string }) => {
 
             {cartFoods.length > 0 ? (
               cartFoods.map((cartFood) => (
-                <CartCardItem cartFood={cartFood} reloadFoods={reloadFoods} />
+                <CartCardItem
+                  cartFood={cartFood}
+                  reloadFoods={reloadFoods}
+                  key={cartFood.food._id}
+                />
               ))
             ) : (
               <div className="py-8 px-12 flex flex-col gap-1 bg-secondary rounded-xl items-center">
@@ -145,7 +145,7 @@ export const ShopCart = ({ email }: { email: string }) => {
                   className="h-20 leading-5"
                   placeholder="Please share your complete address"
                   defaultValue={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  // onChange={(e) => setAddress(e.target.value)}
                 />
               )}
               {!address?.length && (
@@ -214,7 +214,7 @@ export const ShopCart = ({ email }: { email: string }) => {
             </div>
 
             <Button
-              onClick={() => createOrder(email)}
+              onClick={createOrder}
               variant="destructive"
               className="w-full rounded-full h-11 bg-red-500"
             >

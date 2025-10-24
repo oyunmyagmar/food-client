@@ -45,8 +45,8 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(email, "EMAIL");
-    console.log(values.password, "PASSS");
+    // console.log(email, "EMAIL");
+    // console.log(values.password, "PASSS");
     try {
       const response = await fetch("http://localhost:4000/api/signup", {
         method: "POST",

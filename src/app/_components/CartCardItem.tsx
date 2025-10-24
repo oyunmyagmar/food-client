@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { IoCloseOutline } from "react-icons/io5";
@@ -18,12 +19,12 @@ export const CartCardItem = ({
   const incrementCartFoodQuant = () => {};
 
   const deleteItemFromCart = (id: string) => {
-    const foodsFromLocal = JSON.parse(
+    const foodsFromLocal: CartFood[] = JSON.parse(
       localStorage.getItem("foodsAddedToCart") ?? "[]"
     );
 
     const remainedFoods = foodsFromLocal.filter((el) => el.food._id !== id);
-    console.log(remainedFoods, "remained");
+    // console.log(remainedFoods, "remained");
     localStorage.setItem("foodsAddedToCart", JSON.stringify(remainedFoods));
 
     reloadFoods();
