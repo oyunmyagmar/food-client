@@ -53,7 +53,7 @@ export const ShopCart = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId,
-        cartItemsTotalPrice,
+        cartItemsTotalPrice: cartItemsTotalPrice + shippingPrice,
         cartFoods,
         address,
       }),
