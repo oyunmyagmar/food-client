@@ -1,9 +1,8 @@
 import React from "react";
 import { LogoImgHeader } from "@/app/_components";
 import { useRouter } from "next/navigation";
-import { User } from "lucide-react";
 
-export const Logo = () => {
+export const LogoComp = () => {
   const router = useRouter();
 
   return (

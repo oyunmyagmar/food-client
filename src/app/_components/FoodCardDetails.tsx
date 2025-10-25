@@ -6,6 +6,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import Image from "next/image";
 import { CartFood, NewFoodType } from "@/lib/type";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const FoodCardDetails = ({
   filteredFood,
@@ -14,6 +15,7 @@ export const FoodCardDetails = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
+  const [disabled, setDisabled] = useState<boolean>(false);
   const router = useRouter();
 
   const handleDecrementQuantity = () => {
@@ -32,20 +34,14 @@ export const FoodCardDetails = ({
     cartFoods.push({ food: filteredFood, quantity: quantity });
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
 
-    alert("Food is being added to the cart!");
-    alert("Please write your delivery address!");
     setOpen(false);
+    toast("Food is being added to the cart!");
     setQuantity(1);
-    router.push("/");
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        asChild
-        className="cursor-pointer"
-        // disabled={handleAddMultiFoodsToCart}
-      >
+      <DialogTrigger asChild className="cursor-pointer">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2.5 font-semibold items-center">
             <div className="text-2xl leading-8 text-red-500 flex-1">

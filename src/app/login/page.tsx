@@ -20,6 +20,7 @@ import {
   ResetPass,
   VerifyEmail,
 } from "../_components/auth";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.email({
@@ -63,9 +64,9 @@ const LoginPage = () => {
 
     if (!response.ok) {
       if (response.status === 401) {
-        alert("Invalid email! Please try again.");
+        toast("Invalid email! Please try again.");
       } else if (response.status === 400) {
-        alert("Incorrect password! Please try again.");
+        toast("Incorrect password! Please try again.");
       }
     }
 
@@ -73,7 +74,7 @@ const LoginPage = () => {
     const userId = res.user._id;
 
     if (res.success) {
-      alert(res.message);
+      toast(res.message);
 
       localStorage.setItem("userEmail", values.email);
       localStorage.setItem("userId", userId);

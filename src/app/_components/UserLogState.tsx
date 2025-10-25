@@ -28,16 +28,16 @@ export const UserLogState = ({ email }: { email: string | null }) => {
   return (
     <div className={`${!email && "hidden"}`}>
       <HoverCard>
-        <HoverCardTrigger asChild className="cursor-pointer">
+        <HoverCardTrigger asChild className="cursor-pointer p-0">
           <Button
             variant={"destructive"}
             className="size-9 rounded-full bg-red-500"
           >
-            <FiUser size={16} />
+            <FiUser size={16} className="-ml-0.5" />
           </Button>
         </HoverCardTrigger>
 
-        <HoverCardContent className="bg-background rounded-xl">
+        <HoverCardContent className="w-fit bg-background rounded-xl">
           <div className="flex flex-col gap-2 items-center">
             <div className="text-xl leading-7 font-semibold text-foreground">
               {email}
@@ -47,11 +47,12 @@ export const UserLogState = ({ email }: { email: string | null }) => {
               <AlertDialogTrigger asChild>
                 <Button
                   variant={"secondary"}
-                  className={`rounded-full leading-5 text-secondary-foreground`}
+                  className={`rounded-full text-secondary-foreground px-3`}
                 >
                   Sign out
                 </Button>
               </AlertDialogTrigger>
+
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>
@@ -59,6 +60,7 @@ export const UserLogState = ({ email }: { email: string | null }) => {
                   </AlertDialogTitle>
                   <AlertDialogDescription className="hidden" />
                 </AlertDialogHeader>
+
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction onClick={userLogOutHandler}>

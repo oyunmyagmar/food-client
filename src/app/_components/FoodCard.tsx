@@ -6,12 +6,11 @@ import { Button } from "@/components/ui";
 import { FaPlus, FaCheck } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import { FoodCardDetails } from "@/app/_components";
+import { toast } from "sonner";
 
 export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   const [foodAdded, setFoodAdded] = useState<boolean>(false);
   const router = useRouter();
-
-  // const foodsAddedToCart: CartFood[] = [];
 
   const handleAddSingleFoodToCart = (filteredFood: NewFoodType) => {
     // get from localstorage
@@ -23,7 +22,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
     // save to localstorage
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
 
-    alert("Food is being added to the cart!");
+    toast("Food is being added to the cart!");
     setFoodAdded(true);
     router.push("/");
   };

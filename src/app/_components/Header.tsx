@@ -15,7 +15,7 @@ import {
 import { GrLocation } from "react-icons/gr";
 import { FaChevronRight } from "react-icons/fa6";
 import { CartFood } from "@/lib/type";
-import { Logo, ShoppingCart, UserLogState } from "@/app/_components";
+import { LogoComp, ShoppingCart, UserLogState } from "@/app/_components";
 
 export const Header = () => {
   const [email, setEmail] = useState<string>("");
@@ -30,11 +30,6 @@ export const Header = () => {
     const userEmail = localStorage.getItem("userEmail");
     userEmail && setEmail(userEmail);
   }, []);
-
-  // console.log(email);
-  // if (!email) {
-  //   router.push("/login");
-  // }
 
   useEffect(() => {
     const foodsFromLocal = JSON.parse(
@@ -66,7 +61,7 @@ export const Header = () => {
 
   return (
     <header className="w-full px-22 py-3 flex justify-between bg-primary items-center">
-      <Logo />
+      <LogoComp />
 
       <div className="flex gap-[12.81px]">
         <Button
@@ -135,7 +130,7 @@ export const Header = () => {
           </DialogContent>
         </Dialog>
 
-        <ShoppingCart />
+        <ShoppingCart email={email} />
 
         <UserLogState email={email} />
       </div>
