@@ -6,7 +6,7 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 import { CartFood } from "@/lib/type";
 import { Separator, Button } from "@/components/ui";
 
-export const CartCardItem = ({
+export const CartFoodCardComp = ({
   cartFood,
   reloadFoods,
 }: {
@@ -20,12 +20,12 @@ export const CartCardItem = ({
 
   const deleteItemFromCart = (id: string) => {
     const foodsFromLocal: CartFood[] = JSON.parse(
-      localStorage.getItem("foodsAddedToCart") ?? "[]"
+      localStorage.getItem("cartFoods") ?? "[]"
     );
 
     const remainedFoods = foodsFromLocal.filter((el) => el.food._id !== id);
     // console.log(remainedFoods, "remained");
-    localStorage.setItem("foodsAddedToCart", JSON.stringify(remainedFoods));
+    localStorage.setItem("cartFoods", JSON.stringify(remainedFoods));
 
     reloadFoods();
   };

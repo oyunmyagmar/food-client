@@ -15,7 +15,7 @@ import {
 import { GrLocation } from "react-icons/gr";
 import { FaChevronRight } from "react-icons/fa6";
 import { CartFood } from "@/lib/type";
-import { Logo, ShopCart, UserLogState } from "@/app/_components";
+import { Logo, ShoppingCart, UserLogState } from "@/app/_components";
 
 export const Header = () => {
   const [email, setEmail] = useState<string>("");
@@ -65,7 +65,7 @@ export const Header = () => {
   // }, []);
 
   return (
-    <header className="w-360 px-22 py-3 flex justify-between bg-primary items-center m-auto">
+    <header className="w-full px-22 py-3 flex justify-between bg-primary items-center">
       <Logo />
 
       <div className="flex gap-[12.81px]">
@@ -135,7 +135,7 @@ export const Header = () => {
           </DialogContent>
         </Dialog>
 
-        <ShopCart />
+        <ShoppingCart />
 
         <UserLogState email={email} />
       </div>

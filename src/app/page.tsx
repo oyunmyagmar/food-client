@@ -31,10 +31,10 @@ const Homepage = () => {
 
   return (
     <ClientLayout>
-      <div className="w-360 h-full flex flex-col items-center m-auto bg-[#404040]">
+      <div className="w-full h-full flex flex-col items-center">
         <Image src="/hero.png" width={1440} height={570} alt="hero image" />
 
-        <div className="p-22 text-white w-full flex flex-col gap-[54px]">
+        <div className="w-full px-22 py-12 text-white flex flex-col gap-[54px]">
           {categories?.map((category) => {
             return (
               <div key={category._id} className="flex flex-col gap-[54px]">

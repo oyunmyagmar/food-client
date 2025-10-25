@@ -1,5 +1,5 @@
 import React from "react";
-import { LogoImg } from "@/app/_components";
+import { LogoImgHeader } from "@/app/_components";
 import { useRouter } from "next/navigation";
 import { User } from "lucide-react";
 
@@ -11,7 +11,7 @@ export const Logo = () => {
       onClick={() => router.push("/")}
       className="flex items-center gap-3 cursor-pointer"
     >
-      <LogoImg />
+      <LogoImgHeader />
       <div>
         <div className="text-xl leading-7 font-semibold text-primary-foreground">
           Nom<span className="text-red-500">Nom</span>
