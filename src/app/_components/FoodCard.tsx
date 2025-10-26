@@ -9,7 +9,7 @@ import { FoodCardDetails } from "@/app/_components";
 import { toast } from "sonner";
 
 export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
-  const [foodAdded, setFoodAdded] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const router = useRouter();
 
   const handleAddSingleFoodToCart = (filteredFood: NewFoodType) => {
@@ -18,13 +18,19 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
       localStorage.getItem("cartFoods") ?? "[]"
     );
 
-    cartFoods.push({ food: filteredFood, quantity: 1 });
+    const existingFood = cartFoods.find(
+      (cartFood) => cartFood.food._id === filteredFood._id
+    );
+    if (existingFood) {
+      existingFood.quantity = existingFood.quantity + 1;
+    } else {
+      cartFoods.push({ food: filteredFood, quantity: 1 });
+    }
+
     // save to localstorage
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
-
     toast("Food is being added to the cart!");
-    setFoodAdded(true);
-    router.push("/");
+    setIsDisabled(true);
   };
 
   return (
@@ -44,21 +50,24 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
         )}
 
         <div
-          onClick={() => handleAddSingleFoodToCart(filteredFood)}
+          onClick={() => {
+            handleAddSingleFoodToCart(filteredFood);
+          }}
           className="absolute z-50 ml-[301.3px] mt-[146px]"
         >
           <Button
-            disabled={foodAdded}
+            disabled={isDisabled}
             variant={"outline"}
             className={`size-11 rounded-full ${
-              foodAdded && "bg-primary border-none hover:bg-primary"
+              isDisabled &&
+              "bg-primary text-[#E4E4E7] border-none hover:bg-primary/20 hover:text-[#E4E4E7]"
             }`}
           >
             <FaPlus
               size={16}
-              className={`text-red-500 ${foodAdded && "hidden"}`}
+              className={`text-red-500 ${isDisabled && "hidden"}`}
             />
-            <FaCheck size={16} className={`${!foodAdded && "hidden"}`} />
+            <FaCheck size={16} className={`${!isDisabled && "hidden"}`} />
           </Button>
         </div>
       </div>

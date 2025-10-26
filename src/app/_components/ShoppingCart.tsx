@@ -53,34 +53,6 @@ export const ShoppingCart = ({ email }: { email: string }) => {
     userAddress && setAddress(userAddress);
   }, []);
 
-  // const sonner = () => {
-  //   toast.custom((t) => (
-  //     <div className="w-[429px] p-6 flex flex-col gap-12">
-  //       <div className="text-2xl leading-8 font-semibold text-foreground">
-  //         You need to log in first
-  //       </div>
-  //       <div className="w-full flex gap-4">
-  //         <Button
-  //           onClick={() => {
-  //             router.push("/login"), toast.dismiss(t);
-  //           }}
-  //           className="flex-1 size-10"
-  //         >
-  //           Log in
-  //         </Button>
-  //         <Button
-  //           onClick={() => {
-  //             router.push("/signup"), toast.dismiss(t);
-  //           }}
-  //           variant={"outline"}
-  //           className="flex-1 size-10"
-  //         >
-  //           Sign up
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   ));
-  // };
   const createOrder = async () => {
     if (email) {
       const res = await fetch("http://localhost:4000/api/orders", {
@@ -110,8 +82,15 @@ export const ShoppingCart = ({ email }: { email: string }) => {
   return (
     <div>
       <Drawer direction="right" open={cartOpen} onOpenChange={setCartOpen}>
-        <DrawerTrigger asChild onClick={reloadFoods} className="cursor-pointer">
-          <Button variant={"outline"} className="size-9 rounded-full relative">
+        <DrawerTrigger
+          asChild
+          onClick={reloadFoods}
+          className="cursor-pointer border-0"
+        >
+          <Button
+            variant={"outline"}
+            className="size-9 rounded-full relative border-0"
+          >
             <LuShoppingCart size={16} className="text-secondary-foreground" />
             {cartFoods.length > 0 && (
               <div className="w-5 h-5 absolute left-5 bottom-5 z-30 rounded-full bg-red-500 text-[10px] leading-4 font-medium text-primary-foreground flex justify-center items-center">

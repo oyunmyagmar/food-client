@@ -5,7 +5,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -17,7 +16,7 @@ import {
 import { FiUser } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 
-export const UserLogState = ({ email }: { email: string | null }) => {
+export const UserLogState = ({ email }: { email: string }) => {
   const router = useRouter();
 
   const userLogOutHandler = () => {
@@ -25,6 +24,7 @@ export const UserLogState = ({ email }: { email: string | null }) => {
     localStorage.removeItem("userId");
     router.push("/login");
   };
+
   return (
     <div className={`${!email && "hidden"}`}>
       <HoverCard>
@@ -33,37 +33,38 @@ export const UserLogState = ({ email }: { email: string | null }) => {
             variant={"destructive"}
             className="size-9 rounded-full bg-red-500"
           >
-            <FiUser size={16} className="-ml-0.5" />
+            <FiUser size={16} className="-ml-[1px]" />
           </Button>
         </HoverCardTrigger>
 
-        <HoverCardContent className="w-fit bg-background rounded-xl">
+        <HoverCardContent className="w-fit bg-background rounded-xl border-0">
           <div className="flex flex-col gap-2 items-center">
             <div className="text-xl leading-7 font-semibold text-foreground">
-              {email}
+              {email && email}
             </div>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button
-                  variant={"secondary"}
-                  className={`rounded-full text-secondary-foreground px-3`}
-                >
+                <Button variant={"secondary"} className="rounded-full  px-3">
                   Sign out
                 </Button>
               </AlertDialogTrigger>
 
-              <AlertDialogContent>
+              <AlertDialogContent className="w-[429px] rounded-[20px] gap-12">
                 <AlertDialogHeader>
-                  <AlertDialogTitle>
+                  <AlertDialogTitle className="text-2xl leading-8 text-foreground py-1">
                     Are you sure you want to sign out?
                   </AlertDialogTitle>
-                  <AlertDialogDescription className="hidden" />
                 </AlertDialogHeader>
 
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={userLogOutHandler}>
+                <AlertDialogFooter className="gap-4">
+                  <AlertDialogCancel className="flex-1 h-10 py-2.5">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="flex-1 h-10 py-2.5"
+                    onClick={userLogOutHandler}
+                  >
                     Continue
                   </AlertDialogAction>
                 </AlertDialogFooter>

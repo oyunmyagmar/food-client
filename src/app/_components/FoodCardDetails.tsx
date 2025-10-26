@@ -15,7 +15,7 @@ export const FoodCardDetails = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
-  const [disabled, setDisabled] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const router = useRouter();
 
   const handleDecrementQuantity = () => {
@@ -26,17 +26,23 @@ export const FoodCardDetails = ({
     setQuantity((quantity) => quantity + 1);
   };
 
-  const handleAddMultiFoodsToCart = () => {
+  const handleAddMultiFoodsToCart = (filteredFood: NewFoodType) => {
     const cartFoods: CartFood[] = JSON.parse(
       localStorage.getItem("cartFoods") ?? "[]"
     );
-
-    cartFoods.push({ food: filteredFood, quantity: quantity });
+    const existingFood = cartFoods.find(
+      (cartFood) => cartFood.food._id === filteredFood._id
+    );
+    if (existingFood) {
+      existingFood.quantity += quantity;
+    } else {
+      cartFoods.push({ food: filteredFood, quantity: quantity });
+    }
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
-
     setOpen(false);
     toast("Food is being added to the cart!");
     setQuantity(1);
+    setIsDisabled(true);
   };
 
   return (
@@ -60,14 +66,16 @@ export const FoodCardDetails = ({
 
       <DialogContent className="sm:max-w-[826px] flex rounded-[20px] gap-6">
         <div className="w-1/2 h-91 relative rounded-xl overflow-hidden">
-          <Image
-            src={filteredFood.image}
-            alt=""
-            width={377}
-            height={364}
-            unoptimized
-            className="object-cover w-full h-full"
-          />
+          {filteredFood.image && (
+            <Image
+              src={filteredFood.image}
+              alt=""
+              width={377}
+              height={364}
+              unoptimized
+              className="object-cover w-full h-full"
+            />
+          )}
         </div>
 
         <div className="w-1/2 flex flex-col gap-27">
@@ -100,6 +108,7 @@ export const FoodCardDetails = ({
                   ${filteredFood.price * quantity}
                 </div>
               </div>
+
               <div className="flex items-center gap-3">
                 <Button
                   onClick={() => handleDecrementQuantity()}
@@ -127,7 +136,7 @@ export const FoodCardDetails = ({
 
             <Button
               className="w-full rounded-full h-11 py-3"
-              onClick={() => handleAddMultiFoodsToCart()}
+              onClick={() => handleAddMultiFoodsToCart(filteredFood)}
             >
               Add to cart
             </Button>
