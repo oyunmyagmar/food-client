@@ -4,7 +4,7 @@ import { Header, Footer } from "@/app/_components";
 
 export const ClientLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-360 flex flex-col bg-[#404040] m-auto">
+    <div className="w-screen flex flex-col items-center bg-[#404040] m-auto">
       <Header />
       {children}
       <Footer />

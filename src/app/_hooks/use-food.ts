@@ -34,9 +34,9 @@ export const useFood = () => {
 
   return {
     loading,
-    foods,
     categories,
-    reFetchFoods: getNewFoods,
+    foods,
     reFetchCategories: getCategories,
+    reFetchNewFoods: getNewFoods,
   };
 };

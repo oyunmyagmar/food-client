@@ -1,40 +1,19 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { CategoryType, NewFoodType } from "@/lib/type";
+import React from "react";
 import { ClientLayout, FoodCard } from "@/app/_components";
+import { useFood } from "./_hooks/use-food";
 
 const Homepage = () => {
-  const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [foods, setFoods] = useState<NewFoodType[]>([]);
-
-  const getCategories = async () => {
-    const res = await fetch("http://localhost:4000/api/categories");
-    const resData = await res.json();
-    const { data } = resData;
-    // console.log(data, "Categories");
-    setCategories(data);
-  };
-
-  const getNewFoods = async () => {
-    const res = await fetch("http://localhost:4000/api/newfoods");
-    const resData = await res.json();
-    const { data } = resData;
-    // console.log(data, "foods");
-    setFoods(data);
-  };
-
-  useEffect(() => {
-    getCategories();
-    getNewFoods();
-  }, []);
+  const { loading, categories, foods, reFetchCategories, reFetchNewFoods } =
+    useFood();
 
   return (
     <ClientLayout>
-      <div className="w-full h-full flex flex-col items-center">
+      <div className="w-360 flex flex-col items-center gap-22">
         <Image src="/hero.png" width={1440} height={570} alt="hero image" />
 
-        <div className="w-full px-22 py-12 text-white flex flex-col gap-[54px]">
+        <div className="w-full px-22 text-white flex flex-col gap-[54px]">
           {categories?.map((category) => {
             return (
               <div key={category._id} className="flex flex-col gap-[54px]">

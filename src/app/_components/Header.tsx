@@ -60,7 +60,7 @@ export const Header = () => {
   // }, []);
 
   return (
-    <header className="w-full px-22 py-3 flex justify-between bg-primary items-center">
+    <header className="w-360 px-22 py-3 flex justify-between bg-primary items-center">
       <LogoComp />
 
       <div className="flex gap-[12.81px]">

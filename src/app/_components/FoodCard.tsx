@@ -30,20 +30,18 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   return (
     <div className="w-[397.3px] p-4 rounded-[20px] flex flex-col gap-5 bg-background">
       <div className="w-full h-[210px] rounded-xl relative overflow-hidden">
-        <div className="absolute">
-          {filteredFood.image ? (
-            <Image
-              src={filteredFood.image}
-              alt=""
-              width={365.3}
-              height={210}
-              className="object-cover w-full h-full"
-              unoptimized
-            />
-          ) : (
-            ""
-          )}
-        </div>
+        {filteredFood.image ? (
+          <Image
+            src={filteredFood.image}
+            alt=""
+            width={365.3}
+            height={210}
+            className="object-cover w-full h-full absolute"
+            unoptimized
+          />
+        ) : (
+          ""
+        )}
 
         <div
           onClick={() => handleAddSingleFoodToCart(filteredFood)}
