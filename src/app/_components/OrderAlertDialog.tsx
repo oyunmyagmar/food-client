@@ -13,51 +13,52 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 
 export const OrderAlertDialog = ({
-  showAlertDialog,
-  setShowAlertDialog,
+  showLoginAlertDialog,
+  setShowLoginAlertDialog,
 }: {
-  showAlertDialog: boolean;
-  setShowAlertDialog: (showAlertDialog: boolean) => void;
+  showLoginAlertDialog: boolean;
+  setShowLoginAlertDialog: (showLoginAlertDialog: boolean) => void;
 }) => {
   const router = useRouter();
 
   return (
-    <div>
-      <AlertDialog open={showAlertDialog} onOpenChange={setShowAlertDialog}>
-        <AlertDialogContent className="gap-12 rounded-[20px]">
-          <AlertDialogHeader className="flex-row justify-between items-center">
-            <Button variant={"ghost"} className="size-10" />
+    <AlertDialog
+      open={showLoginAlertDialog}
+      onOpenChange={setShowLoginAlertDialog}
+    >
+      <AlertDialogContent className="sm:max-w-[429px] gap-12 rounded-[20px]">
+        <AlertDialogHeader className="flex-row justify-between items-center">
+          <Button variant={"ghost"} className="size-10" />
 
-            <AlertDialogTitle className="text-2xl leading-8 text-foreground">
-              You need to log in first
-            </AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl leading-8 text-foreground">
+            You need to log in first
+          </AlertDialogTitle>
 
-            <Button
-              onClick={() => setShowAlertDialog(false)}
-              variant={"secondary"}
-              className="w-10 h-10 rounded-full"
-            >
-              <IoCloseOutline size={16} />
-            </Button>
-          </AlertDialogHeader>
+          <Button
+            onClick={() => setShowLoginAlertDialog(false)}
+            variant={"secondary"}
+            className="w-10 h-10 rounded-full"
+          >
+            <IoCloseOutline size={16} />
+          </Button>
+        </AlertDialogHeader>
 
-          <AlertDialogFooter className="gap-4">
-            <AlertDialogAction
-              onClick={() => router.push("/login")}
-              className="flex-1 size-10"
-            >
-              Log in
-            </AlertDialogAction>
+        <AlertDialogFooter className="gap-4">
+          <AlertDialogAction
+            onClick={() => router.push("/login")}
+            className="flex-1 size-10"
+          >
+            Log in
+          </AlertDialogAction>
 
-            <AlertDialogCancel
-              onClick={() => router.push("/signup")}
-              className="flex-1 size-10"
-            >
-              Sign up
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+          <AlertDialogCancel
+            onClick={() => router.push("/signup")}
+            className="flex-1 size-10"
+          >
+            Sign up
+          </AlertDialogCancel>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };

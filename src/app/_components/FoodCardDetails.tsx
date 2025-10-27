@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger, Button } from "@/components/ui";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
-import Image from "next/image";
 import { CartFood, NewFoodType } from "@/lib/type";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const FoodCardDetails = ({
@@ -15,8 +14,6 @@ export const FoodCardDetails = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleDecrementQuantity = () => {
     quantity > 1 && setQuantity((quantity) => quantity - 1);
@@ -42,7 +39,6 @@ export const FoodCardDetails = ({
     setOpen(false);
     toast("Food is being added to the cart!");
     setQuantity(1);
-    setIsDisabled(true);
   };
 
   return (

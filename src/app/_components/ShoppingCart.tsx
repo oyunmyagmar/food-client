@@ -21,6 +21,7 @@ import {
   CartFoodCardComp,
   LogoImgShoppingCart,
   OrderAlertDialog,
+  OrderSuccessAlertDialog,
 } from "@/app/_components";
 
 export const ShoppingCart = ({ email }: { email: string }) => {
@@ -30,7 +31,8 @@ export const ShoppingCart = ({ email }: { email: string }) => {
   const [address, setAddress] = useState<string>("");
   const shippingPrice = 0.99;
   let cartFoodsPriceBeforeShipping: number = 0;
-  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [showLoginAlertDialog, setShowLoginAlertDialog] = useState(false);
+  const [successAlertDialog, setSuccessAlertDialog] = useState<boolean>(false);
 
   cartFoods.forEach((cartFood) => {
     const foodUnitsPrice = cartFood.food.price * cartFood.quantity;
@@ -56,7 +58,7 @@ export const ShoppingCart = ({ email }: { email: string }) => {
   const createOrder = async () => {
     if (email) {
       try {
-        await fetch("http://localhost:4000/api/orders", {
+        const response = await fetch("http://localhost:4000/api/orders", {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
@@ -68,7 +70,7 @@ export const ShoppingCart = ({ email }: { email: string }) => {
           }),
         });
 
-        alert("Your order has been successfully placed !");
+        // alert("Your order has been successfully placed !");
         setCartOpen(false);
         localStorage.removeItem("cartFoods");
         localStorage.removeItem("userAddress");
@@ -76,7 +78,7 @@ export const ShoppingCart = ({ email }: { email: string }) => {
         console.error("Order placement unsuccessful !", error);
       }
     } else if (!email) {
-      setShowAlertDialog(true);
+      setShowLoginAlertDialog(true);
     }
   };
 
@@ -266,9 +268,14 @@ export const ShoppingCart = ({ email }: { email: string }) => {
       </Drawer>
 
       <OrderAlertDialog
-        showAlertDialog={showAlertDialog}
-        setShowAlertDialog={setShowAlertDialog}
+        showLoginAlertDialog={showLoginAlertDialog}
+        setShowLoginAlertDialog={setShowLoginAlertDialog}
       />
+
+      {/* <OrderSuccessAlertDialog
+        setSuccessAlertDialog={setSuccessAlertDialog}
+        successAlertDialog={successAlertDialog}
+      /> */}
     </div>
   );
 };

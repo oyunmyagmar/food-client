@@ -10,3 +10,4 @@ export * from "./CartFoodCardComp";
 export * from "./FoodCardDetails";
 export * from "./LogoImgShoppingCart";
 export * from "./OrderAlertDialog";
+export * from "./OrderSuccessAlertDialog";

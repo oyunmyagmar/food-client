@@ -1,16 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { CartFood, NewFoodType } from "@/lib/type";
 import Image from "next/image";
+import { CartFood, NewFoodType } from "@/lib/type";
 import { Button } from "@/components/ui";
 import { FaPlus, FaCheck } from "react-icons/fa6";
-import { useRouter } from "next/navigation";
 import { FoodCardDetails } from "@/app/_components";
 import { toast } from "sonner";
 
 export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleAddSingleFoodToCart = (filteredFood: NewFoodType) => {
     // get from localstorage
@@ -49,12 +47,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
           ""
         )}
 
-        <div
-          // onClick={() => {
-          //   handleAddSingleFoodToCart(filteredFood);
-          // }}
-          className="absolute z-50 ml-[301.3px] mt-[146px]"
-        >
+        <div className="absolute z-50 ml-[301.3px] mt-[146px]">
           <Button
             onClick={() => {
               handleAddSingleFoodToCart(filteredFood);
