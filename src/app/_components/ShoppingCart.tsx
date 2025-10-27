@@ -55,25 +55,26 @@ export const ShoppingCart = ({ email }: { email: string }) => {
 
   const createOrder = async () => {
     if (email) {
-      const res = await fetch("http://localhost:4000/api/orders", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          cartItemsTotalPrice: cartFoodsPriceBeforeShipping + shippingPrice,
-          cartFoods,
-          address,
-        }),
-      });
+      try {
+        await fetch("http://localhost:4000/api/orders", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            cartItemsTotalPrice: cartFoodsPriceBeforeShipping + shippingPrice,
+            cartFoods,
+            address,
+          }),
+        });
 
-      const resResult = await res.json();
-      if (!resResult.ok) {
-        alert("Order placement unsuccessful !");
-      } else {
         alert("Your order has been successfully placed !");
+        setCartOpen(false);
+        localStorage.removeItem("cartFoods");
+        localStorage.removeItem("userAddress");
+      } catch (error) {
+        console.error("Order placement unsuccessful !", error);
       }
-      setCartOpen(false);
     } else if (!email) {
       setShowAlertDialog(true);
     }
