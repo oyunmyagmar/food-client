@@ -50,12 +50,15 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
         )}
 
         <div
-          onClick={() => {
-            handleAddSingleFoodToCart(filteredFood);
-          }}
+          // onClick={() => {
+          //   handleAddSingleFoodToCart(filteredFood);
+          // }}
           className="absolute z-50 ml-[301.3px] mt-[146px]"
         >
           <Button
+            onClick={() => {
+              handleAddSingleFoodToCart(filteredFood);
+            }}
             disabled={isDisabled}
             variant={"outline"}
             className={`size-11 rounded-full ${
