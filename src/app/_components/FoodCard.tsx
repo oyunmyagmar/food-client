@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { CartFood, NewFoodType } from "@/lib/type";
 import { Button } from "@/components/ui";
@@ -9,6 +9,20 @@ import { toast } from "sonner";
 
 export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const cartFoods: CartFood[] = JSON.parse(
+      localStorage.getItem("cartFoods") ?? "[]"
+    );
+
+    const existingFood = cartFoods.find(
+      (cartFood) => cartFood.food._id === filteredFood._id
+    );
+
+    if (existingFood) {
+      setIsDisabled(true);
+    }
+  }, [filteredFood._id]);
 
   const handleAddSingleFoodToCart = (filteredFood: NewFoodType) => {
     // get from localstorage
@@ -39,9 +53,8 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
           <Image
             src={filteredFood.image}
             alt=""
-            width={365.3}
-            height={210}
-            className="object-cover w-full h-full absolute"
+            fill
+            className="object-cover"
             unoptimized
           />
         ) : (

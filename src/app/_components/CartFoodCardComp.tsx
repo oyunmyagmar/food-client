@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoCloseOutline } from "react-icons/io5";
 import { FiMinus, FiPlus } from "react-icons/fi";
@@ -18,22 +18,36 @@ export const CartFoodCardComp = ({
   const [quantity, setQuantity] = useState<number>(cartFood.quantity);
 
   const decrementCartFoodQuant = () => {
-    quantity > 1 && setQuantity((quantity) => quantity - 1);
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+
+      const updatedFoods = cartFoods.map((el) =>
+        el.food._id === cartFood.food._id
+          ? { ...el, quantity: newQuantity }
+          : el
+      );
+      localStorage.setItem("cartFoods", JSON.stringify(updatedFoods));
+      reloadFoods();
+    }
   };
+
   const incrementCartFoodQuant = () => {
-    setQuantity((quantity) => quantity + 1);
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+
+    const updatedFoods = cartFoods.map((el) =>
+      el.food._id === cartFood.food._id ? { ...el, quantity: newQuantity } : el
+    );
+    localStorage.setItem("cartFoods", JSON.stringify(updatedFoods));
+    reloadFoods();
   };
 
   const deleteFoodFromCart = (id: string) => {
-    // const foodsFromLocal: CartFood[] = JSON.parse(
-    //   localStorage.getItem("cartFoods") ?? "[]"
-    // );
-
     const remainedFoods = cartFoods.filter(
       (cartFood) => cartFood.food._id !== id
     );
     localStorage.setItem("cartFoods", JSON.stringify(remainedFoods));
-
     reloadFoods();
   };
 
@@ -79,9 +93,11 @@ export const CartFoodCardComp = ({
                 >
                   <FiMinus size={16} />
                 </Button>
+
                 <div className="text-lg leading-7 font-semibold">
                   {quantity}
                 </div>
+
                 <Button
                   onClick={incrementCartFoodQuant}
                   variant={"ghost"}
@@ -98,7 +114,7 @@ export const CartFoodCardComp = ({
           </div>
         </div>
       </div>
-      <Separator className="border border-dashed border-[rgba(9,9,11,0.5)] bg-transparent" />
+      <Separator className="border-t border-dashed border-[#09090B]/50 bg-transparent" />
     </div>
   );
 };

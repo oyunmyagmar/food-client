@@ -1,38 +1,58 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+  Button,
+} from "@/components/ui";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const OrderSuccessAlertDialog = ({
   successAlertDialog,
   setSuccessAlertDialog,
+  setCartOpen,
 }: {
   successAlertDialog: boolean;
   setSuccessAlertDialog: (successAlertDialog: boolean) => void;
+  setCartOpen: (cartOpen: boolean) => void;
 }) => {
+  const router = useRouter();
+
   return (
     <AlertDialog open={successAlertDialog} onOpenChange={setSuccessAlertDialog}>
-      <AlertDialogContent className="sm:max-w-166 gap-6 rounded-[20px]">
+      <AlertDialogContent className="sm:max-w-166 gap-6 rounded-[20px] border-0">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl leading-8 text-foreground">
+          <AlertDialogTitle className="text-2xl leading-8 text-foreground text-center">
             Your order has been successfully placed !
           </AlertDialogTitle>
+          <AlertDialogDescription />
         </AlertDialogHeader>
-        <div>
-          <Image src={"/successOrder.png"} alt="" width={616} height={391} />
+
+        <div className="w-39 h-[271px] relative m-auto">
+          <Image
+            src={"/successOrder.png"}
+            alt=""
+            fill
+            className="object-cover"
+            unoptimized
+          />
         </div>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Back to home</AlertDialogCancel>
+
+        <AlertDialogFooter className="sm:justify-center">
+          <Button
+            onClick={() => {
+              setSuccessAlertDialog(false);
+              setCartOpen(false);
+            }}
+            variant={"secondary"}
+            className="h-10 rounded-full px-12 py-2.5 cursor-pointer"
+          >
+            Back to home
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,9 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Dialog, DialogContent, DialogTrigger, Button } from "@/components/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+  Button,
+} from "@/components/ui";
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { IoCloseOutline } from "react-icons/io5";
 import { CartFood, NewFoodType } from "@/lib/type";
 import { toast } from "sonner";
 
@@ -27,17 +33,20 @@ export const FoodCardDetails = ({
     const cartFoods: CartFood[] = JSON.parse(
       localStorage.getItem("cartFoods") ?? "[]"
     );
+
     const existingFood = cartFoods.find(
       (cartFood) => cartFood.food._id === filteredFood._id
     );
+
     if (existingFood) {
       existingFood.quantity += quantity;
     } else {
       cartFoods.push({ food: filteredFood, quantity: quantity });
     }
+
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
     setOpen(false);
-    toast("Food is being added to the cart!");
+    toast(`${filteredFood.foodName} is being added to the cart!`);
     setQuantity(1);
   };
 
@@ -66,34 +75,21 @@ export const FoodCardDetails = ({
             <Image
               src={filteredFood.image}
               alt=""
-              width={377}
-              height={364}
+              fill
               unoptimized
-              className="object-cover w-full h-full"
+              className="object-cover"
             />
           )}
         </div>
 
         <div className="w-1/2 flex flex-col gap-27">
-          <div>
-            <div className="flex justify-end">
-              <Button
-                variant={"outline"}
-                className="size-9 rounded-full"
-                onClick={() => setOpen(false)}
-              >
-                <IoCloseOutline size={16} />
-              </Button>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <div className="text-3xl leading-9 font-semibold text-red-500">
-                {filteredFood.foodName}
-              </div>
-              <div className="text-base leading-6 text-foreground">
-                {filteredFood.ingredients}
-              </div>
-            </div>
+          <div className="flex flex-col gap-3 mt-9">
+            <DialogTitle className="text-3xl leading-9 text-red-500">
+              {filteredFood.foodName}
+            </DialogTitle>
+            <DialogDescription className="text-base leading-6 text-foreground">
+              {filteredFood.ingredients}
+            </DialogDescription>
           </div>
 
           <div className="flex flex-col gap-6">

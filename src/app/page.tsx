@@ -11,7 +11,15 @@ const Homepage = () => {
   return (
     <ClientLayout>
       <div className="w-360 flex flex-col items-center gap-22">
-        <Image src="/hero.png" width={1440} height={570} alt="hero image" />
+        <div className="w-full h-[570px] relative">
+          <Image
+            src="/hero.png"
+            fill
+            alt="hero image"
+            className="object-cover"
+            priority
+          />
+        </div>
 
         <div className="w-full px-22 text-white flex flex-col gap-[54px]">
           {categories?.map((category) => {

@@ -4,6 +4,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -26,9 +27,9 @@ export const OrderAlertDialog = ({
       open={showLoginAlertDialog}
       onOpenChange={setShowLoginAlertDialog}
     >
-      <AlertDialogContent className="sm:max-w-[429px] gap-12 rounded-[20px]">
+      <AlertDialogContent className="sm:max-w-[429px] gap-12 rounded-[20px] border-0">
         <AlertDialogHeader className="flex-row justify-between items-center">
-          <Button variant={"ghost"} className="size-10" />
+          <AlertDialogDescription className="w-10" />
 
           <AlertDialogTitle className="text-2xl leading-8 text-foreground">
             You need to log in first
@@ -46,7 +47,7 @@ export const OrderAlertDialog = ({
         <AlertDialogFooter className="gap-4">
           <AlertDialogAction
             onClick={() => router.push("/login")}
-            className="flex-1 size-10"
+            className="flex-1 size-10 py-2.5"
           >
             Log in
           </AlertDialogAction>
