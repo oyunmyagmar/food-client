@@ -19,6 +19,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
     const existingFood = cartFoods.find(
       (cartFood) => cartFood.food._id === filteredFood._id
     );
+
     if (existingFood) {
       existingFood.quantity = existingFood.quantity + 1;
     } else {
@@ -27,7 +28,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
 
     // save to localstorage
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
-    toast("Food is being added to the cart!");
+    toast(`${filteredFood.foodName} is being added to the cart!`);
     setIsDisabled(true);
   };
 

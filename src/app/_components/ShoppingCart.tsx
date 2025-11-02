@@ -70,8 +70,8 @@ export const ShoppingCart = ({ email }: { email: string }) => {
           }),
         });
 
-        // alert("Your order has been successfully placed !");
-        setCartOpen(false);
+        alert("Your order has been successfully placed !");
+        // setCartOpen(false);
         localStorage.removeItem("cartFoods");
         localStorage.removeItem("userAddress");
       } catch (error) {
