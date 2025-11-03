@@ -15,10 +15,12 @@ export const OrderSuccessAlertDialog = ({
   successAlertDialog,
   setSuccessAlertDialog,
   setCartOpen,
+  reloadFoods,
 }: {
   successAlertDialog: boolean;
   setSuccessAlertDialog: (successAlertDialog: boolean) => void;
   setCartOpen: (cartOpen: boolean) => void;
+  reloadFoods: () => void;
 }) => {
   const router = useRouter();
 
@@ -45,8 +47,11 @@ export const OrderSuccessAlertDialog = ({
         <AlertDialogFooter className="sm:justify-center">
           <Button
             onClick={() => {
-              setSuccessAlertDialog(false);
               setCartOpen(false);
+              localStorage.removeItem("cartFoods");
+              localStorage.removeItem("userAddress");
+              reloadFoods();
+              setSuccessAlertDialog(false);
             }}
             variant={"secondary"}
             className="h-10 rounded-full px-12 py-2.5 cursor-pointer"

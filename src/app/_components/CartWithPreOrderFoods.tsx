@@ -41,8 +41,9 @@ export const CartWithPreOrderFoods = ({
     if (!email) {
       setShowLoginAlertDialog(true);
       return;
-    } else if (!address) {
-      alert("Please complete your address");
+    }
+    if (!address) {
+      alert("Delivery address is required!");
       return;
     }
 
@@ -58,17 +59,20 @@ export const CartWithPreOrderFoods = ({
         }),
       });
 
-      const result = await response.json();
-      if (result.status == 201) {
-        setSuccessAlertDialog(true);
-        localStorage.removeItem("cartFoods");
-        localStorage.removeItem("userAddress");
-        reloadFoods();
+      if (response.ok) {
+        // localStorage.removeItem("cartFoods");
+        // localStorage.removeItem("userAddress");
+        // reloadFoods();
+        setTimeout(() => {
+          setSuccessAlertDialog(true);
+        }, 1000);
       } else {
-        alert(result.error);
+        console.error("Order failed with status:", response.status);
+        alert("Something went wrong while placing order! Please try again.");
       }
     } catch (error) {
-      console.error("Order placement unsuccessful !", error);
+      console.error("Error placing order", error);
+      alert("Failed to connect to the server!");
     }
   };
 
@@ -158,6 +162,7 @@ export const CartWithPreOrderFoods = ({
         successAlertDialog={successAlertDialog}
         setSuccessAlertDialog={setSuccessAlertDialog}
         setCartOpen={setCartOpen}
+        reloadFoods={reloadFoods}
       />
     </div>
   );
