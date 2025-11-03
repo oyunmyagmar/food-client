@@ -58,11 +58,15 @@ export const CartWithPreOrderFoods = ({
         }),
       });
 
-      setSuccessAlertDialog(true);
-
-      localStorage.removeItem("cartFoods");
-      localStorage.removeItem("userAddress");
-      reloadFoods();
+      const result = await response.json();
+      if (result.status == 201) {
+        setSuccessAlertDialog(true);
+        localStorage.removeItem("cartFoods");
+        localStorage.removeItem("userAddress");
+        reloadFoods();
+      } else {
+        alert(result.error);
+      }
     } catch (error) {
       console.error("Order placement unsuccessful !", error);
     }
