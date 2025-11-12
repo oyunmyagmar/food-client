@@ -60,7 +60,6 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
         ) : (
           ""
         )}
-
         <div className="absolute z-50 ml-[301.3px] mt-[146px]">
           <Button
             onClick={() => {
