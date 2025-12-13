@@ -1,14 +1,14 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Dialog, DialogTrigger } from "@/components/ui";
-import { GrLocation } from "react-icons/gr";
-import { FaChevronRight } from "react-icons/fa6";
+import { Button } from "@/components/ui";
+
 import {
-  AddressComp,
+  HeaderAddressComp,
+  HeaderUserLogState,
   LogoComp,
   ShoppingCart,
-  UserLogState,
 } from "@/app/_components";
 
 export const Header = () => {
@@ -49,30 +49,15 @@ export const Header = () => {
           </>
         )}
 
-        <Dialog open={isOpenAddress} onOpenChange={setIsOpenAddress}>
-          <DialogTrigger>
-            <div className="flex items-center px-3 py-2 gap-1 rounded-full bg-background text-xs leading-4 cursor-pointer">
-              <div>
-                <GrLocation size={20} className="text-red-500" />
-              </div>
-              <div className="text-red-500">Delivery address:</div>
-              <div className="text-muted-foreground">
-                {deliveryAddress || "Add Location"}
-              </div>
-              <div className="w-5 h-5 flex items-center justify-center">
-                <FaChevronRight size={16} className="text-[#18181B]/50" />
-              </div>
-            </div>
-          </DialogTrigger>
+        <HeaderAddressComp
+          isOpenAddress={isOpenAddress}
+          setIsOpenAddress={setIsOpenAddress}
+          deliveryAddress={deliveryAddress}
+          setDeliveryAddress={setDeliveryAddress}
+        />
 
-          <AddressComp
-            setIsOpenAddress={setIsOpenAddress}
-            deliveryAddress={deliveryAddress}
-            setDeliveryAddress={setDeliveryAddress}
-          />
-        </Dialog>
         <ShoppingCart email={email} />
-        <UserLogState email={email} />
+        <HeaderUserLogState email={email} />
       </div>
     </header>
   );

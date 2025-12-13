@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   LogImage,
@@ -19,7 +20,11 @@ const SignupPage = () => {
   return (
     <div className="w-360 flex m-auto py-5 pr-5 pl-25 gap-12">
       <div className="mt-[226px]">
-        <StepComponents email={email} handleNextStep={handleNextStep} />
+        <StepComponents
+          email={email}
+          setStep={setStep}
+          handleNextStep={handleNextStep}
+        />
       </div>
       <LogImage />
     </div>

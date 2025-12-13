@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { Dispatch } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +15,8 @@ import {
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { SignupCompAlreadyAccount } from "./SignupCompAlreadyAccount";
 
 const formSchema = z
   .object({
@@ -33,7 +36,14 @@ const formSchema = z
     path: ["confirm"],
   });
 
-export const SignupPasswordForm = ({ email }: { email: string }) => {
+export const SignupPasswordForm = ({
+  setStep,
+  email,
+}: {
+  setStep: Dispatch<React.SetStateAction<number>>;
+  email: string;
+}) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,11 +52,7 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
     },
   });
 
-  const router = useRouter();
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // console.log(email, "EMAIL");
-    // console.log(values.password, "PASSS");
     try {
       const response = await fetch("http://localhost:4000/api/signup", {
         method: "POST",
@@ -55,15 +61,20 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
         },
         body: JSON.stringify({ email, password: values?.password }),
       });
+
       if (!response.ok) {
         if (response.status === 409) {
-          alert(`Sign up failed! Email address is already in use.`);
+          toast.error(
+            `Sign up failed! Email address is already in use. Please try again`
+          );
+          router.push("/signup");
         }
       }
+
       if (response.status === 201) {
-        alert(`User created succesfully!`);
+        toast.success(`User created succesfully!`);
+        router.push("/login");
       }
-      router.push("/login");
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +82,11 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <Button variant={"outline"} className="w-fit">
+      <Button
+        variant={"outline"}
+        onClick={() => setStep(0)}
+        className="w-fit cursor-pointer"
+      >
         <HiOutlineChevronLeft className="size-4" />
       </Button>
 
@@ -128,21 +143,10 @@ export const SignupPasswordForm = ({ email }: { email: string }) => {
             >
               Let's Go
             </Button>
-
-            <div className="text-base leading-6 flex gap-3 justify-center items-center">
-              <div className="text-muted-foreground">
-                Already have an account?
-              </div>
-              <div
-                onClick={() => router.push("/login")}
-                className="text-blue-600 cursor-pointer"
-              >
-                Log in
-              </div>
-            </div>
           </div>
         </form>
       </Form>
+      <SignupCompAlreadyAccount />
     </div>
   );
 };

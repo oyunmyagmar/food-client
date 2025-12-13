@@ -5,7 +5,6 @@ import Image from "next/image";
 import { ClientLayout, FoodCard } from "@/app/_components";
 import { useFood } from "./_hooks/use-food";
 import { Skeleton } from "@/components/ui";
-import { array } from "zod";
 
 const Homepage = () => {
   const { loading, categories, foods, reFetchCategories, reFetchNewFoods } =

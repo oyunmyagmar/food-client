@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { CartFood, NewFoodType } from "@/lib/type";
@@ -67,7 +68,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
             }}
             disabled={isDisabled}
             variant={"outline"}
-            className={`size-11 rounded-full ${
+            className={`size-11 rounded-full cursor-pointer ${
               isDisabled &&
               "bg-primary text-[#E4E4E7] border-none hover:bg-primary/20 hover:text-[#E4E4E7]"
             }`}

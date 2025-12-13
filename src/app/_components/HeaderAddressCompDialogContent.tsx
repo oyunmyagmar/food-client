@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React from "react";
 import {
   Button,
   Textarea,
@@ -11,7 +13,7 @@ import {
 } from "@/components/ui";
 import { toast } from "sonner";
 
-export const AddressComp = ({
+export const HeaderAddressCompDialogContent = ({
   setIsOpenAddress,
   deliveryAddress,
   setDeliveryAddress,
@@ -47,7 +49,7 @@ export const AddressComp = ({
           <DialogClose asChild>
             <Button
               onClick={() => setIsOpenAddress(false)}
-              className="h-10"
+              className="h-10 cursor-pointer"
               type="button"
               variant="secondary"
             >
@@ -58,7 +60,7 @@ export const AddressComp = ({
           <Button
             onClick={handleAddAddressToLocalStorage}
             disabled={!deliveryAddress}
-            className="h-10"
+            className="h-10 cursor-pointer"
             type="button"
           >
             Deliver Here

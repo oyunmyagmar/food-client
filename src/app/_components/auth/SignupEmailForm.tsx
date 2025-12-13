@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import { SignupCompAlreadyAccount } from "./SignupCompAlreadyAccount";
 
 const formSchema = z.object({
   email: z.email({
@@ -24,7 +26,7 @@ const formSchema = z.object({
 export const SignupEmailForm = ({
   handleNextStep,
 }: {
-  handleNextStep: (_email: string) => void;
+  handleNextStep: (email: string) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,7 +43,11 @@ export const SignupEmailForm = ({
 
   return (
     <div className="flex flex-col gap-6">
-      <Button variant={"outline"} className="w-fit">
+      <Button
+        variant={"outline"}
+        onClick={() => router.push("/")}
+        className="w-fit cursor-pointer"
+      >
         <HiOutlineChevronLeft className="size-4" />
       </Button>
 
@@ -81,17 +87,7 @@ export const SignupEmailForm = ({
             Let's Go
           </Button>
 
-          <div className="text-base leading-6 flex gap-3 justify-center items-center">
-            <div className="text-muted-foreground">
-              Already have an account?
-            </div>
-            <div
-              onClick={() => router.push("/login")}
-              className="text-blue-600 cursor-pointer"
-            >
-              Log in
-            </div>
-          </div>
+          <SignupCompAlreadyAccount />
         </form>
       </Form>
     </div>

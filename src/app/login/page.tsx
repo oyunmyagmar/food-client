@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,6 +18,7 @@ import { useRouter } from "next/navigation";
 import {
   CreateNewPass,
   LogImage,
+  LoginCompNoAccount,
   ResetPass,
   VerifyEmail,
 } from "../_components/auth";
@@ -86,7 +88,11 @@ const LoginPage = () => {
     <div className="w-360 h-256 flex m-auto py-5 pr-5 pl-25 gap-12">
       <div className="mt-[226px]">
         <div className="flex flex-col gap-6">
-          <Button variant={"outline"} className="w-fit">
+          <Button
+            variant={"outline"}
+            onClick={() => router.push("/signup")}
+            className="w-fit cursor-pointer"
+          >
             <HiOutlineChevronLeft className="size-4" />
           </Button>
 
@@ -136,10 +142,7 @@ const LoginPage = () => {
               />
 
               <div className="flex flex-col gap-6">
-                <div
-                  // onClick={handleNextStepForPass}
-                  className="text-sm leading-5 text-secondary-foreground underline cursor-pointer"
-                >
+                <div className="text-sm leading-5 text-secondary-foreground underline cursor-pointer">
                   Forgot password ?
                 </div>
 
@@ -150,21 +153,10 @@ const LoginPage = () => {
                 >
                   Let's Go
                 </Button>
-
-                <div className="text-base leading-6 flex gap-3 justify-center items-center">
-                  <div className="text-muted-foreground">
-                    Don’t have an account?
-                  </div>
-                  <div
-                    onClick={() => router.push("/signup")}
-                    className="text-blue-600 cursor-pointer"
-                  >
-                    Sign up
-                  </div>
-                </div>
               </div>
             </form>
           </Form>
+          <LoginCompNoAccount />
         </div>
       </div>
 
