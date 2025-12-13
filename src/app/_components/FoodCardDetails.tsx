@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, Button } from "@/components/ui";
 import { CartFood, NewFoodType } from "@/lib/type";
@@ -43,7 +44,7 @@ export const FoodCardDetails = ({
 
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
     setOpen(false);
-    toast(`${filteredFood.foodName} is being added to the cart!`);
+    toast(`${filteredFood.foodName} added to the cart!`);
     setQuantity(1);
   };
 

@@ -1,13 +1,17 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Button, Separator, Textarea, TabsContent } from "@/components/ui";
 import { CartFood } from "@/lib/type";
 import {
   CartFoodCardComp,
+  HeaderShoppingCaDrTaCartDeliveryLocationComp,
+  HeaderShoppingCaDrTaCartMyCartComp,
   OrderAlertDialog,
   OrderSuccessAlertDialog,
 } from "@/app/_components";
 
-export const CartWithPreOrderFoods = ({
+export const HeaderShoppingCartDrawerTabCart = ({
   cartFoods,
   reloadFoods,
   email,
@@ -81,41 +85,15 @@ export const CartWithPreOrderFoods = ({
       <TabsContent value="cart">
         <div className="w-full flex flex-col gap-6">
           <div className="flex flex-col gap-14 bg-background text-foreground p-4 rounded-[20px]">
-            <div className="flex flex-col gap-5">
-              <div className="text-xl leading-7 font-semibold text-muted-foreground">
-                My cart
-              </div>
+            <HeaderShoppingCaDrTaCartMyCartComp
+              cartFoods={cartFoods}
+              reloadFoods={reloadFoods}
+            />
 
-              {cartFoods.length > 0 &&
-                cartFoods.map((cartFood) => (
-                  <CartFoodCardComp
-                    key={cartFood.food._id}
-                    cartFoods={cartFoods}
-                    cartFood={cartFood}
-                    reloadFoods={reloadFoods}
-                  />
-                ))}
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <div className="text-xl leading-7 font-semibold text-muted-foreground">
-                Delivery location
-              </div>
-              <div>
-                <Textarea
-                  className="h-20 leading-5"
-                  placeholder="Please share your complete address"
-                  defaultValue={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-
-                {!address && (
-                  <div className="text-[12.8px] leading-[19.2px] text-destructive">
-                    Please complete your address
-                  </div>
-                )}
-              </div>
-            </div>
+            <HeaderShoppingCaDrTaCartDeliveryLocationComp
+              address={address}
+              setAddress={setAddress}
+            />
           </div>
 
           <div className="bg-background text-foreground flex flex-col p-4 gap-5 rounded-[20px]">

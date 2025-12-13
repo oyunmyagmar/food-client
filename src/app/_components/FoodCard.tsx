@@ -43,7 +43,7 @@ export const FoodCard = ({ filteredFood }: { filteredFood: NewFoodType }) => {
 
     // save to localstorage
     localStorage.setItem("cartFoods", JSON.stringify(cartFoods));
-    toast(`${filteredFood.foodName} is being added to the cart!`);
+    toast(`${filteredFood.foodName} added to the cart!`);
     setIsDisabled(true);
   };
 

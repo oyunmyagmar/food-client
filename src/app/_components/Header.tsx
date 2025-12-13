@@ -6,9 +6,9 @@ import { Button } from "@/components/ui";
 
 import {
   HeaderAddressComp,
+  HeaderShoppingCart,
   HeaderUserLogState,
   LogoComp,
-  ShoppingCart,
 } from "@/app/_components";
 
 export const Header = () => {
@@ -56,7 +56,8 @@ export const Header = () => {
           setDeliveryAddress={setDeliveryAddress}
         />
 
-        <ShoppingCart email={email} />
+        <HeaderShoppingCart email={email} />
+
         <HeaderUserLogState email={email} />
       </div>
     </header>
