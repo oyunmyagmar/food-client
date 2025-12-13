@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Dispatch } from "react";
-import { DrawerContent, Tabs, TabsContent } from "@/components/ui";
+import { DrawerContent, Tabs } from "@/components/ui";
 import { EmptyCart } from "./EmptyCart";
 import { CartFood } from "@/lib/type";
 import {
@@ -27,7 +27,7 @@ export const HeaderShoppingCartDrawerContent = ({
       <HeaderShoppingCartDrawerHeader />
 
       <Tabs defaultValue="cart" className="w-full gap-6">
-        <HeaderShoppingCartDrawerTabsList />
+        <HeaderShoppingCartDrawerTabsList email={email} />
 
         {cartFoods.length ? (
           <HeaderShoppingCartDrawerTabCart

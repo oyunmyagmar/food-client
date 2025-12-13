@@ -48,7 +48,10 @@ export const HeaderShoppingCartDrawerTabCart = ({
       setShowLoginAlert(true);
       return;
     }
-    if (!address) {
+
+    const trimmedAddress = address.trim();
+
+    if (!trimmedAddress) {
       toast.warning("Delivery address required!");
       return;
     }
@@ -63,7 +66,7 @@ export const HeaderShoppingCartDrawerTabCart = ({
           userId,
           cartItemsTotalPrice: cartFoodsPriceBeforeShipping + shippingPrice,
           cartFoods,
-          address,
+          address: trimmedAddress,
         }),
       });
 
