@@ -23,10 +23,10 @@ export * from "./HeaderUserLogState";
 export * from "./LogoComp";
 export * from "./LogoImgHeader";
 
+export * from "./OrderLoginAlertDialog";
+export * from "./OrderSuccessAlertDialog";
 export * from "./Footer";
 
 export * from "./CartFoodCardComp";
 export * from "./LogoImgShoppingCart";
-export * from "./OrderAlertDialog";
-export * from "./OrderSuccessAlertDialog";
 export * from "./EmptyCart";

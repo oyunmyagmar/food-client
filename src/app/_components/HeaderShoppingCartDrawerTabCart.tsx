@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Separator, Textarea, TabsContent } from "@/components/ui";
+import { Button, TabsContent } from "@/components/ui";
 import { CartFood } from "@/lib/type";
 import {
-  CartFoodCardComp,
   HeaderShoppingCaDrTaCartDeliveryLocationComp,
   HeaderShoppingCaDrTaCartMyCartComp,
-  OrderAlertDialog,
+  HeaderShoppingCaDrTaCartPaymentInfoComp,
+  OrderLoginAlertDialog,
   OrderSuccessAlertDialog,
 } from "@/app/_components";
+import { toast } from "sonner";
 
 export const HeaderShoppingCartDrawerTabCart = ({
   cartFoods,
@@ -26,8 +27,9 @@ export const HeaderShoppingCartDrawerTabCart = ({
   const [userId, setUserId] = useState<string>("");
   let cartFoodsPriceBeforeShipping: number = 0;
   const shippingPrice = 0.99;
-  const [showLoginAlertDialog, setShowLoginAlertDialog] = useState(false);
-  const [successAlertDialog, setSuccessAlertDialog] = useState<boolean>(false);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [orderSuccessAlert, setOrderSuccessAlert] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   cartFoods.forEach((cartFood) => {
     const foodUnitsPrice = cartFood.food.price * cartFood.quantity;
@@ -43,15 +45,17 @@ export const HeaderShoppingCartDrawerTabCart = ({
 
   const createOrder = async () => {
     if (!email) {
-      setShowLoginAlertDialog(true);
+      setShowLoginAlert(true);
       return;
     }
     if (!address) {
-      alert("Delivery address is required!");
+      toast.warning("Delivery address required!");
       return;
     }
 
     try {
+      setLoading(true);
+
       const response = await fetch("http://localhost:4000/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,20 +67,21 @@ export const HeaderShoppingCartDrawerTabCart = ({
         }),
       });
 
+      if (!response.ok) {
+        toast.error(
+          "Something went wrong while placing order! Please try again."
+        );
+      }
+
       if (response.ok) {
-        // localStorage.removeItem("cartFoods");
-        // localStorage.removeItem("userAddress");
-        // reloadFoods();
         setTimeout(() => {
-          setSuccessAlertDialog(true);
+          setOrderSuccessAlert(true);
         }, 1000);
-      } else {
-        console.error("Order failed with status:", response.status);
-        alert("Something went wrong while placing order! Please try again.");
       }
     } catch (error) {
-      console.error("Error placing order", error);
-      alert("Failed to connect to the server!");
+      console.error("Error!", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,7 +94,6 @@ export const HeaderShoppingCartDrawerTabCart = ({
               cartFoods={cartFoods}
               reloadFoods={reloadFoods}
             />
-
             <HeaderShoppingCaDrTaCartDeliveryLocationComp
               address={address}
               setAddress={setAddress}
@@ -97,33 +101,16 @@ export const HeaderShoppingCartDrawerTabCart = ({
           </div>
 
           <div className="bg-background text-foreground flex flex-col p-4 gap-5 rounded-[20px]">
-            <div className="text-xl leading-7 font-semibold text-muted-foreground">
-              Payment info
-            </div>
-            <div className="flex flex-col gap-2 text-base leading-7">
-              <div className="flex justify-between">
-                <div className="text-muted-foreground">Items</div>
-                <div className="font-bold">${cartFoodsPriceBeforeShipping}</div>
-              </div>
-              <div className="flex justify-between">
-                <div className="text-muted-foreground">Shipping</div>
-                <div className="font-bold">{shippingPrice}$</div>
-              </div>
-            </div>
-
-            <Separator className="border-t border-dashed border-[#09090B]/50 bg-transparent" />
-
-            <div className="flex justify-between leading-7 items-center">
-              <div className="text-base text-muted-foreground">Total</div>
-              <div className="text-lg font-semibold">
-                ${cartFoodsPriceBeforeShipping + shippingPrice}
-              </div>
-            </div>
+            <HeaderShoppingCaDrTaCartPaymentInfoComp
+              cartFoodsPriceBeforeShipping={cartFoodsPriceBeforeShipping}
+              shippingPrice={shippingPrice}
+            />
 
             <Button
+              disabled={loading}
               onClick={createOrder}
               variant="destructive"
-              className="w-full rounded-full h-11 bg-red-500 py-3"
+              className="w-full rounded-full h-11 bg-red-500 py-3 cursor-pointer"
             >
               Checkout
             </Button>
@@ -131,14 +118,14 @@ export const HeaderShoppingCartDrawerTabCart = ({
         </div>
       </TabsContent>
 
-      <OrderAlertDialog
-        showLoginAlertDialog={showLoginAlertDialog}
-        setShowLoginAlertDialog={setShowLoginAlertDialog}
+      <OrderLoginAlertDialog
+        showLoginAlert={showLoginAlert}
+        setShowLoginAlert={setShowLoginAlert}
       />
 
       <OrderSuccessAlertDialog
-        successAlertDialog={successAlertDialog}
-        setSuccessAlertDialog={setSuccessAlertDialog}
+        orderSuccessAlert={orderSuccessAlert}
+        setOrderSuccessAlert={setOrderSuccessAlert}
         setCartOpen={setCartOpen}
         reloadFoods={reloadFoods}
       />
