@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Dispatch, useState } from "react";
-import { DrawerContent, Tabs } from "@/components/ui";
+import { DrawerContent, Tabs, TabsContent } from "@/components/ui";
 import { EmptyCart } from "./EmptyCart";
 import { CartFood, UserOrderType } from "@/lib/type";
 import {
@@ -51,32 +51,38 @@ export const HeaderShoppingCartDrawerContent = ({
       <Tabs defaultValue="cart" className="w-full gap-6">
         <HeaderShoppingCartDrawerTabsList getUserOrders={getUserOrders} />
 
-        {cartFoods.length ? (
-          <HeaderShoppingCartDrawerTabCart
-            cartFoods={cartFoods}
-            reloadFoods={reloadFoods}
-            email={email}
-            setCartOpen={setCartOpen}
-          />
-        ) : (
-          <EmptyCart
-            message={" Your cart is empthy"}
-            description={
-              "Hungry? 🍔 Add some delicious dishes to your cart and satisfy your cravings!"
-            }
-          />
-        )}
+        <TabsContent value="cart">
+          {cartFoods.length ? (
+            <HeaderShoppingCartDrawerTabCart
+              cartFoods={cartFoods}
+              reloadFoods={reloadFoods}
+              email={email}
+              setCartOpen={setCartOpen}
+            />
+          ) : (
+            <EmptyCart
+              tabTitle={"My cart"}
+              message={" Your cart is empthy"}
+              description={
+                "Hungry? 🍔 Add some delicious dishes to your cart and satisfy your cravings!"
+              }
+            />
+          )}
+        </TabsContent>
 
-        {userOrders.length ? (
-          <HeaderShoppingCartDrawerTabOrder userOrders={userOrders} />
-        ) : (
-          <EmptyCart
-            message={"No Orders Yet?"}
-            description={
-              "🍕 You haven't placed any orders yet. Start exploring our menu and satisfy your cravings!"
-            }
-          />
-        )}
+        <TabsContent value="order">
+          {userOrders.length > 0 ? (
+            <HeaderShoppingCartDrawerTabOrder userOrders={userOrders} />
+          ) : (
+            <EmptyCart
+              tabTitle={"Order history"}
+              message={"No Orders Yet?"}
+              description={
+                "🍕 You haven't placed any orders yet. Start exploring our menu and satisfy your cravings!"
+              }
+            />
+          )}
+        </TabsContent>
       </Tabs>
     </DrawerContent>
   );

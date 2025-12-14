@@ -131,6 +131,7 @@ const LoginPage = () => {
                   <FormItem className="w-104">
                     <FormControl>
                       <Input
+                        type="password"
                         placeholder="Password"
                         {...field}
                         className="py-2"

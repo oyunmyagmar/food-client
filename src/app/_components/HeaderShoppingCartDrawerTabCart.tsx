@@ -90,36 +90,34 @@ export const HeaderShoppingCartDrawerTabCart = ({
 
   return (
     <div>
-      <TabsContent value="cart">
-        <div className="w-full flex flex-col gap-6">
-          <div className="flex flex-col gap-14 bg-background text-foreground p-4 rounded-[20px]">
-            <HeaderShoppingCaDrTaCartMyCartComp
-              cartFoods={cartFoods}
-              reloadFoods={reloadFoods}
-            />
-            <HeaderShoppingCaDrTaCartDeliveryLocationComp
-              address={address}
-              setAddress={setAddress}
-            />
-          </div>
-
-          <div className="bg-background text-foreground flex flex-col p-4 gap-5 rounded-[20px]">
-            <HeaderShoppingCaDrTaCartPaymentInfoComp
-              cartFoodsPriceBeforeShipping={cartFoodsPriceBeforeShipping}
-              shippingPrice={shippingPrice}
-            />
-
-            <Button
-              disabled={loading}
-              onClick={createOrder}
-              variant="destructive"
-              className="w-full rounded-full h-11 bg-red-500 py-3 cursor-pointer"
-            >
-              Checkout
-            </Button>
-          </div>
+      <div className="w-full flex flex-col gap-6">
+        <div className="flex flex-col gap-14 bg-background text-foreground p-4 rounded-[20px]">
+          <HeaderShoppingCaDrTaCartMyCartComp
+            cartFoods={cartFoods}
+            reloadFoods={reloadFoods}
+          />
+          <HeaderShoppingCaDrTaCartDeliveryLocationComp
+            address={address}
+            setAddress={setAddress}
+          />
         </div>
-      </TabsContent>
+
+        <div className="bg-background text-foreground flex flex-col p-4 gap-5 rounded-[20px]">
+          <HeaderShoppingCaDrTaCartPaymentInfoComp
+            cartFoodsPriceBeforeShipping={cartFoodsPriceBeforeShipping}
+            shippingPrice={shippingPrice}
+          />
+
+          <Button
+            disabled={loading}
+            onClick={createOrder}
+            variant="destructive"
+            className="w-full rounded-full h-11 bg-red-500 py-3 cursor-pointer"
+          >
+            Checkout
+          </Button>
+        </div>
+      </div>
 
       <OrderLoginAlertDialog
         showLoginAlert={showLoginAlert}

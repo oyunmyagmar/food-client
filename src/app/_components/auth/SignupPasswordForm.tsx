@@ -107,7 +107,12 @@ export const SignupPasswordForm = ({
             render={({ field }) => (
               <FormItem className="w-104">
                 <FormControl>
-                  <Input placeholder="Password" {...field} className="py-2" />
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    {...field}
+                    className="py-2"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,7 +125,12 @@ export const SignupPasswordForm = ({
             render={({ field }) => (
               <FormItem className="w-104">
                 <FormControl>
-                  <Input placeholder="Confirm" {...field} className="py-2" />
+                  <Input
+                    type="password"
+                    placeholder="Confirm"
+                    {...field}
+                    className="py-2"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
