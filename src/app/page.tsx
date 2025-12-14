@@ -26,13 +26,16 @@ const Homepage = () => {
         <div className="w-full px-22 text-white flex flex-col gap-[54px]">
           {loading && (
             <>
-              {Array.from({ length: 4 }).map((el) => (
-                <div className="flex flex-col gap-[54px]">
+              {Array.from({ length: 4 }).map((el, i) => (
+                <div key={i} className="flex flex-col gap-[54px]">
                   <Skeleton className="w-40 h-9 rounded-full" />
 
                   <div className="flex flex-wrap gap-9">
-                    {Array.from({ length: 6 }).map((el) => (
-                      <Skeleton className="w-[397.3px] h-[342px] rounded-[20px]" />
+                    {Array.from({ length: 6 }).map((el, i) => (
+                      <Skeleton
+                        key={i}
+                        className="w-[397.3px] h-[342px] rounded-[20px]"
+                      />
                     ))}
                   </div>
                 </div>

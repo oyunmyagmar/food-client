@@ -1,4 +1,5 @@
 "use client";
+
 import { CategoryType, NewFoodType } from "@/lib/type";
 import { useEffect, useState } from "react";
 
