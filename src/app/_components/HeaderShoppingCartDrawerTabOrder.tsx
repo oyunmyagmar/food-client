@@ -23,9 +23,17 @@ export const HeaderShoppingCartDrawerTabOrder = ({
                 </div>
                 <Button
                   variant={"outline"}
-                  className="h-7 border-red-500 rounded-full text-xs leading-4 py-1 px-2.5"
+                  className={`h-7 rounded-full text-xs leading-4 py-1 px-2.5 ${
+                    order.status === "PENDING"
+                      ? "border-red-500 hover:bg-red-500"
+                      : order.status === "DELIVERED"
+                      ? "border-[#18BA51]/50 hover:bg-[#18BA51]/50"
+                      : order.status === "CANCELED"
+                      ? "border-gray-300 hover:bg-gray-300"
+                      : ""
+                  }`}
                 >
-                  {order.status}
+                  {order.status.charAt(0) + order.status.slice(1).toLowerCase()}
                 </Button>
               </div>
 
