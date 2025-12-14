@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch } from "react";
+import React, { Dispatch, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,7 +16,7 @@ import {
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { SignupCompAlreadyAccount } from "./SignupCompAlreadyAccount";
+import { PassShowHide, SignupCompAlreadyAccount } from "@/app/_components/auth";
 
 const formSchema = z
   .object({
@@ -43,6 +43,7 @@ export const SignupPasswordForm = ({
   setStep: Dispatch<React.SetStateAction<number>>;
   email: string;
 }) => {
+  const [showPass, setShowPass] = useState<boolean>(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -108,7 +109,7 @@ export const SignupPasswordForm = ({
               <FormItem className="w-104">
                 <FormControl>
                   <Input
-                    type="password"
+                    type={showPass ? "text" : "password"}
                     placeholder="Password"
                     {...field}
                     className="py-2"
@@ -126,7 +127,7 @@ export const SignupPasswordForm = ({
               <FormItem className="w-104">
                 <FormControl>
                   <Input
-                    type="password"
+                    type={showPass ? "text" : "password"}
                     placeholder="Confirm"
                     {...field}
                     className="py-2"
@@ -138,13 +139,7 @@ export const SignupPasswordForm = ({
           />
 
           <div className="flex flex-col gap-6">
-            <div className="flex gap-2 items-center">
-              <Input
-                type="checkbox"
-                className="w-4 h-4 rounded-sm border-foreground"
-              />
-              <div className="text-sm text-muted-foreground">Show password</div>
-            </div>
+            <PassShowHide showPass={showPass} setShowPass={setShowPass} />
 
             <Button
               variant={"secondary"}

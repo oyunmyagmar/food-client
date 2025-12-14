@@ -1,9 +1,10 @@
 "use client";
+
 import { useData } from "@/app/_providers/FoodProvider";
 import React from "react";
 
 const Testpage = () => {
-  const { foods, categories } = useData();
+  const { foods } = useData();
   return (
     <div className="w-full h-100">
       {foods.map((el) => (

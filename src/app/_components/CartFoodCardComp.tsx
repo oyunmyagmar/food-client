@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { IoCloseOutline } from "react-icons/io5";
 import { FiMinus, FiPlus } from "react-icons/fi";

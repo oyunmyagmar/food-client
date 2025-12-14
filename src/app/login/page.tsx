@@ -15,14 +15,9 @@ import {
 } from "@/components/ui";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useRouter } from "next/navigation";
-import {
-  CreateNewPass,
-  LogImage,
-  LoginCompNoAccount,
-  ResetPass,
-  VerifyEmail,
-} from "../_components/auth";
+import { LogImage, LoginCompNoAccount } from "../_components/auth";
 import { toast } from "sonner";
+import { PassShowHide } from "../_components";
 
 const formSchema = z.object({
   email: z.email({
@@ -33,6 +28,7 @@ const formSchema = z.object({
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string | null>(null);
+  const [showPass, setShowPass] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -131,7 +127,7 @@ const LoginPage = () => {
                   <FormItem className="w-104">
                     <FormControl>
                       <Input
-                        type="password"
+                        type={showPass ? "text" : "password"}
                         placeholder="Password"
                         {...field}
                         className="py-2"
@@ -143,9 +139,7 @@ const LoginPage = () => {
               />
 
               <div className="flex flex-col gap-6">
-                <div className="text-sm leading-5 text-secondary-foreground underline cursor-pointer">
-                  Forgot password ?
-                </div>
+                <PassShowHide showPass={showPass} setShowPass={setShowPass} />
 
                 <Button
                   variant={"secondary"}

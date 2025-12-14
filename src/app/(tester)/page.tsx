@@ -1,12 +1,12 @@
 "use client";
+
 import Image from "next/image";
 import React from "react";
 import { ClientLayout, FoodCard } from "@/app/_components";
 import { useFood } from "../_hooks/use-food";
 
 export default function Homepage() {
-  const { loading, categories, foods, reFetchCategories, reFetchFoods } =
-    useFood();
+  const { loading, categories, foods, reFetchCategories } = useFood();
 
   return (
     <ClientLayout>
