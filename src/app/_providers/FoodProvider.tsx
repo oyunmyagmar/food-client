@@ -30,7 +30,7 @@ export const FoodProvider = ({ children }: Props) => {
     const res = await fetch("http://localhost:4000/api/categories");
     const resData = await res.json();
     const { data } = resData;
-    // console.log(data, "Categories");
+
     setCategories(data);
     setLoading(false);
   };
@@ -40,7 +40,6 @@ export const FoodProvider = ({ children }: Props) => {
     const res = await fetch("http://localhost:4000/api/newfoods");
     const resData = await res.json();
     const { data } = resData;
-    // console.log(data, "foods");
     setFoods(data);
   };
 

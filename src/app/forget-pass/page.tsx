@@ -30,9 +30,7 @@ const ForgetPassPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
     <div className="w-360 h-256 flex m-auto py-5 pr-5 pl-25 gap-12">

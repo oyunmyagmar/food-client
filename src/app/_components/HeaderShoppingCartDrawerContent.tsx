@@ -24,7 +24,6 @@ export const HeaderShoppingCartDrawerContent = ({
   setCartOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [userOrders, setUserOrders] = useState<UserOrderType[]>([]);
-  console.log({ userOrders });
 
   const getUserOrders = async () => {
     const res = await fetch(
