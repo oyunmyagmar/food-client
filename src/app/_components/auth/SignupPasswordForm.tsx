@@ -55,13 +55,16 @@ export const SignupPasswordForm = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("http://localhost:4000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password: values?.password }),
-      });
+      const response = await fetch(
+        "https://food-next-backend.vercel.app/api/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password: values?.password }),
+        }
+      );
 
       if (!response.ok) {
         if (response.status === 409) {

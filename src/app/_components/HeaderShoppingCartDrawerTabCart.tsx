@@ -59,16 +59,19 @@ export const HeaderShoppingCartDrawerTabCart = ({
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:4000/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          cartItemsTotalPrice: cartFoodsPriceBeforeShipping + shippingPrice,
-          cartFoods,
-          address: trimmedAddress,
-        }),
-      });
+      const response = await fetch(
+        "https://food-next-backend.vercel.app/api/orders",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            cartItemsTotalPrice: cartFoodsPriceBeforeShipping + shippingPrice,
+            cartFoods,
+            address: trimmedAddress,
+          }),
+        }
+      );
 
       if (!response.ok) {
         toast.error(

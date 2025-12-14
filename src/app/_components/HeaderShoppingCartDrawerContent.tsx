@@ -27,7 +27,7 @@ export const HeaderShoppingCartDrawerContent = ({
 
   const getUserOrders = async () => {
     const res = await fetch(
-      "http://localhost:4000/api/orders/get-user-orders",
+      "https://food-next-backend.vercel.app/api/orders/get-user-orders",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

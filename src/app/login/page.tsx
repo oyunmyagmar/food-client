@@ -49,16 +49,19 @@ const LoginPage = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("http://localhost:4000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: values?.email,
-        password: values?.password,
-      }),
-    });
+    const response = await fetch(
+      "https://food-next-backend.vercel.app/api/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values?.email,
+          password: values?.password,
+        }),
+      }
+    );
 
     if (!response.ok) {
       if (response.status === 401) {

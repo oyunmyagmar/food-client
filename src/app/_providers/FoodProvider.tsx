@@ -27,7 +27,9 @@ export const FoodProvider = ({ children }: Props) => {
 
   const getCategories = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:4000/api/categories");
+    const res = await fetch(
+      "https://food-next-backend.vercel.app/api/categories"
+    );
     const resData = await res.json();
     const { data } = resData;
 
@@ -37,7 +39,9 @@ export const FoodProvider = ({ children }: Props) => {
 
   const getNewFoods = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:4000/api/newfoods");
+    const res = await fetch(
+      "https://food-next-backend.vercel.app/api/newfoods"
+    );
     const resData = await res.json();
     const { data } = resData;
     setFoods(data);
