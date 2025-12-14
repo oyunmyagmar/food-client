@@ -59,10 +59,24 @@ export const HeaderShoppingCartDrawerContent = ({
             setCartOpen={setCartOpen}
           />
         ) : (
-          <EmptyCart />
+          <EmptyCart
+            message={" Your cart is empthy"}
+            description={
+              "Hungry? 🍔 Add some delicious dishes to your cart and satisfy your cravings!"
+            }
+          />
         )}
 
-        <HeaderShoppingCartDrawerTabOrder userOrders={userOrders} />
+        {userOrders.length ? (
+          <HeaderShoppingCartDrawerTabOrder userOrders={userOrders} />
+        ) : (
+          <EmptyCart
+            message={"No Orders Yet?"}
+            description={
+              "🍕 You haven't placed any orders yet. Start exploring our menu and satisfy your cravings!"
+            }
+          />
+        )}
       </Tabs>
     </DrawerContent>
   );

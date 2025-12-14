@@ -2,7 +2,13 @@ import React from "react";
 import { Button, Separator, TabsContent } from "@/components/ui";
 import { LogoImgShoppingCart } from "@/app/_components";
 
-export const EmptyCart = () => {
+export const EmptyCart = ({
+  message,
+  description,
+}: {
+  message: string;
+  description: string;
+}) => {
   return (
     <TabsContent value="cart">
       <div className="w-full flex flex-col gap-6">
@@ -14,12 +20,9 @@ export const EmptyCart = () => {
 
             <div className="py-8 px-12 flex flex-col gap-1 bg-secondary rounded-xl items-center">
               <LogoImgShoppingCart />
-              <div className="text-base leading-7 font-bold">
-                Your cart is empthy
-              </div>
+              <div className="text-base leading-7 font-bold">{message}</div>
               <div className="text-xs leading-4 text-muted-foreground text-center">
-                Hungry? 🍔 Add some delicious dishes to your cart and satisfy
-                your cravings!
+                {description}
               </div>
             </div>
           </div>
